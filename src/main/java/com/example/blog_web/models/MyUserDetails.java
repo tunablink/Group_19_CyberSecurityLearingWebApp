@@ -1,4 +1,4 @@
-package com.example.blog_web.model;
+package com.example.blog_web.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

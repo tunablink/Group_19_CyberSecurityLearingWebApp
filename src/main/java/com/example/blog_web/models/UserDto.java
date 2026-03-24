@@ -1,17 +1,17 @@
-package com.example.blog_web.model;
+package com.example.blog_web.models;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class UserDto {
-    @NotBlank(message = "Username không được để trống")
-    @Size(min = 4, max = 50, message = "Username phải từ 4-50 ký tự")
+    @NotBlank(message = "Username khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
+    @Size(min = 4, max = 50, message = "Username pháº£i tá»« 4-50 kÃ½ tá»±")
     private String username;
 
     @Pattern(
             regexp = "^(?=.*\\d)(?=.*[A-Z]).{6,60}$",
-            message = "Password tối thiểu 6 ký tự, có ít nhất 1 số và 1 chữ hoa"
+            message = "Password tá»‘i thiá»ƒu 6 kÃ½ tá»±, cÃ³ Ã­t nháº¥t 1 sá»‘ vÃ  1 chá»¯ hoa"
     )
     private String password;
 

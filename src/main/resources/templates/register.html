@@ -1,79 +1,57 @@
 <!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta charset="utf-8" />
+<head>
+    <title>Sign Up</title>
     <link rel="stylesheet" th:href="@{/css/register.css}" />
-  </head>
-
-  <body>
-    <div th:replace="~{fragments/navbar_guest :: navbar_guest}"></div>
-
+</head>
+<body th:replace="~{layouts/main :: layout(~{::title}, ~{::main})}">
     <main class="login-page">
-      <div class="login-layout">
-        <section class="login-card">
-          <header class="login-card__header">
-            <h1 class="login-card__title">Sign Up</h1>
-            <p class="login-card__subtitle">
-              Welcome to the cybersecurity course.
-            </p>
-          </header>
+        <div th:replace="~{fragments/navbar_guest :: navbar_guest}"></div>
+        <div class="login-layout">
+            <section class="login-card">
+                <header class="login-card__header">
+                    <h1 class="login-card__title">Sign Up</h1>
+                    <p class="login-card__subtitle">Welcome to the cybersecurity course.</p>
+                </header>
 
-          <form class="login-form" th:action="@{/register}" method="post">
-            <label class="form-field">
-              <span class="form-field__label">Username or email</span>
-              <input
-                class="form-field__input"
-                type="email"
-                name="email"
-                placeholder="example@example.com"
-                autocomplete="email"
-              />
-            </label>
+                <form class="login-form" th:action="@{/register}" method="post">
+                    <label class="form-field">
+                        <span class="form-field__label">Username or email</span>
+                        <input class="form-field__input" type="email" name="email" placeholder="example@example.com" autocomplete="email" />
+                    </label>
 
-            <button class="login-submit" type="submit">Sign up</button>
+                    <button class="login-submit" type="submit">Sign up</button>
 
-            <div class="login-divider">
-              <span class="login-divider__line"></span>
-              <span class="login-divider__text">Or</span>
-              <span class="login-divider__line"></span>
-            </div>
+                    <div class="login-divider">
+                        <span class="login-divider__line"></span>
+                        <span class="login-divider__text">Or</span>
+                        <span class="login-divider__line"></span>
+                    </div>
 
-            <div class="social-auth">
-              <button class="social-auth__btn" type="button">
-                <span class="social-auth__icon">
-                  <img th:src="@{/images/google.png}" alt="" />
-                </span>
-                Continue with Google
-              </button>
+                    <div class="social-auth">
+                        <button class="social-auth__btn" type="button">
+                            <span class="social-auth__icon"><img th:src="@{/images/google.png}" alt="" /></span> Continue with Google
+                        </button>
+                        <button class="social-auth__btn" type="button">
+                            <span class="social-auth__icon"><img th:src="@{/images/linkedin.png}" alt="" /></span> Continue with LinkedIn
+                        </button>
+                        <button class="social-auth__btn" type="button">
+                            <span class="social-auth__icon"><img th:src="@{/images/key.png}" alt="" /></span> Continue with SSO
+                        </button>
+                    </div>
 
-              <button class="social-auth__btn" type="button">
-                <span class="social-auth__icon">
-                  <img th:src="@{/images/linkedin.png}" alt="" />
-                </span>
-                Continue with LinkedIn
-              </button>
+                    <div class="login-help">
+                        <span class="login-help__text">Having trouble logging in?</span>
+                        <a class="login-help__link" href="#">Send magic link</a>
+                    </div>
 
-              <button class="social-auth__btn" type="button">
-                <span class="social-auth__icon">
-                  <img th:src="@{/images/key.png}" alt="" />
-                </span>
-                Continue with SSO
-              </button>
-            </div>
-
-            <div class="login-help">
-              <span class="login-help__text">Having trouble logging in?</span>
-              <a class="login-help__link" href="#">Send magic link</a>
-            </div>
-
-            <footer class="login-footer">
-              <span>You have an account?</span>
-              <a class="login-footer__link" th:href="@{/login}">Login</a>.
-            </footer>
-          </form>
-        </section>
-      </div>
+                    <footer class="login-footer">
+                        <span>You have an account?</span>
+                        <a class="login-footer__link" th:href="@{/login}">Login</a>.
+                    </footer>
+                </form>
+            </section>
+        </div>
     </main>
-  </body>
+</body>
 </html>

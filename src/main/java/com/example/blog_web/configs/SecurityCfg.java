@@ -1,6 +1,6 @@
-package com.example.blog_web.config;
+package com.example.blog_web.configs;
 
-import com.example.blog_web.serivce.JpaUserDetailsService;
+import com.example.blog_web.services.JpaUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
