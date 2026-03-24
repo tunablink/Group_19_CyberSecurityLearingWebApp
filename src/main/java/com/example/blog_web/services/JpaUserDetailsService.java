@@ -1,7 +1,7 @@
-package com.example.blog_web.serivce;
+package com.example.blog_web.services;
 
-import com.example.blog_web.model.MyUserDetails;
-import com.example.blog_web.repository.UserRepository;
+import com.example.blog_web.models.MyUserDetails;
+import com.example.blog_web.repositories.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +21,6 @@ public class JpaUserDetailsService implements UserDetailsService {
         return userRepository.findByUsername(username)
                 .map(MyUserDetails::new)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Không tìm thấy user: " + username));
+                        new UsernameNotFoundException("KhÃ´ng tÃ¬m tháº¥y user: " + username));
     }
 }
