@@ -1,0 +1,86 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Preview A10 — A10:2025 — Mishandling of Exceptional Conditions
+    </title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}" />
+  </head>
+
+  <body class="APreviewPage">
+    <main class="APreviewWrap">
+      <header class="APreviewHeader">
+        <div>
+          <div class="APreviewKicker">Course preview</div>
+          <h1 class="APreviewTitle">
+            A10:2025 — Mishandling of Exceptional Conditions
+          </h1>
+        </div>
+
+        <!-- TODO: update this path if your lesson files are in a different folder -->
+        <a
+          class="APreviewClose"
+          th:href="@{/learn/A10-server-side-request-forgery}"
+          aria-label="Back to lesson"
+          >✕</a
+        >
+      </header>
+
+      <section class="APreviewPlayer" aria-label="Preview player">
+        <!-- Placeholder: replace with <video> or <iframe> later -->
+        <div class="APreviewVideoPlaceholder"></div>
+
+        <div class="APreviewControls" aria-hidden="true">
+          <button class="APreviewPlayBtn" type="button"></button>
+          <div class="APreviewTime">0:00 / 6:24</div>
+          <div class="APreviewSpacer"></div>
+          <div class="APreviewDot"></div>
+          <div class="APreviewDot"></div>
+        </div>
+      </section>
+
+      <h2 class="APreviewSectionTitle">Free preview videos:</h2>
+
+      <div class="APreviewCourseRow">
+        <div class="APreviewCourseThumb"></div>
+        <div class="APreviewCourseName">
+          Section 1: Exception handling threats (security view)
+        </div>
+      </div>
+
+      <nav class="APreviewList" aria-label="Preview playlist">
+        <a class="APreviewItem APreviewItem--active" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              When errors become vulnerabilities
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:05</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Information leakage: stack traces and internal identifiers
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:12</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Error code hygiene: 4xx vs 5xx and consistency
+            </div>
+          </div>
+          <div class="APreviewItemTime">3:22</div>
+        </a>
+      </nav>
+    </main>
+  </body>
+</html>
+
+

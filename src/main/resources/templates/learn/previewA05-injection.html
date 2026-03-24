@@ -1,0 +1,89 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Preview A05 — A05:2025 — Injection</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}" />
+  </head>
+
+  <body class="APreviewPage">
+    <main class="APreviewWrap">
+      <header class="APreviewHeader">
+        <div>
+          <div class="APreviewKicker">Course preview</div>
+          <h1 class="APreviewTitle">A05:2025 — Injection</h1>
+        </div>
+
+        <!-- TODO: update this path if your lesson files are in a different folder -->
+        <a
+          class="APreviewClose"
+          th:href="@{/learn/A05-injection}"
+          aria-label="Back to lesson"
+          >✕</a
+        >
+      </header>
+
+      <section class="APreviewPlayer" aria-label="Preview player">
+        <!-- Placeholder: replace with <video> or <iframe> later -->
+        <div class="APreviewVideoPlaceholder"></div>
+
+        <div class="APreviewControls" aria-hidden="true">
+          <button class="APreviewPlayBtn" type="button"></button>
+          <div class="APreviewTime">0:00 / 6:24</div>
+          <div class="APreviewSpacer"></div>
+          <div class="APreviewDot"></div>
+          <div class="APreviewDot"></div>
+        </div>
+      </section>
+
+      <h2 class="APreviewSectionTitle">Free preview videos:</h2>
+
+      <div class="APreviewCourseRow">
+        <div class="APreviewCourseThumb"></div>
+        <div class="APreviewCourseName">Section 1: Injection fundamentals</div>
+      </div>
+
+      <nav class="APreviewList" aria-label="Preview playlist">
+        <a class="APreviewItem APreviewItem--active" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              How injection happens (data → interpreter)
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:10</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Where input comes from: headers, params, files, JSON
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:35</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Injection mindset: separators, quoting, and encoding
+            </div>
+          </div>
+          <div class="APreviewItemTime">3:20</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Impact: from data leak to remote command execution
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:55</div>
+        </a>
+      </nav>
+    </main>
+  </body>
+</html>
+
+
