@@ -328,7 +328,34 @@
       </div>
     </main>
 
-    
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        // const token = localStorage.getItem('auth-key');
+        // if (!token) {
+        //   console.error('No JWT token found in localStorage. Redirecting to login.');
+        //   window.location.href = '/login'; // トークンがない場合はログインページへリダイレクト
+        //   return;
+        // }
+        try {
+          const response = await fetch('/api/modules', {
+            method: 'GET',
+            headers: {
+              // 'Authorization': 'Bearer ' + token,
+              'Content-Type': 'application/json'
+            }
+          });
+
+          if (response.ok) {
+            const modules = await response.json();
+            console.log('Fetched Modules:', modules);
+          }
+        } catch (error) {
+          console.error('Error during module fetch:', error);
+          // ネットワークエラーなどの場合
+          alert('Network error. Could not connect to the server.');
+        }
+      });
+    </script>
   </body>
 </html>
 
