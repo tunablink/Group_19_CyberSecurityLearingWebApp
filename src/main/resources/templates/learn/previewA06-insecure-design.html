@@ -1,0 +1,82 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Preview A06 — A06:2025 — Insecure Design</title>
+    <link rel="stylesheet" th:href="@{/css/learn.css}" />
+  </head>
+
+  <body class="APreviewPage">
+    <main class="APreviewWrap">
+      <header class="APreviewHeader">
+        <div>
+          <div class="APreviewKicker">Course preview</div>
+          <h1 class="APreviewTitle">A06:2025 — Insecure Design</h1>
+        </div>
+
+        <!-- TODO: update this path if your lesson files are in a different folder -->
+        <a
+          class="APreviewClose"
+          th:href="@{/learn/A06-insecure-design}"
+          aria-label="Back to lesson"
+          >✕</a
+        >
+      </header>
+
+      <section class="APreviewPlayer" aria-label="Preview player">
+        <!-- Placeholder: replace with <video> or <iframe> later -->
+        <div class="APreviewVideoPlaceholder"></div>
+
+        <div class="APreviewControls" aria-hidden="true">
+          <button class="APreviewPlayBtn" type="button"></button>
+          <div class="APreviewTime">0:00 / 6:24</div>
+          <div class="APreviewSpacer"></div>
+          <div class="APreviewDot"></div>
+          <div class="APreviewDot"></div>
+        </div>
+      </section>
+
+      <h2 class="APreviewSectionTitle">Free preview videos:</h2>
+
+      <div class="APreviewCourseRow">
+        <div class="APreviewCourseThumb"></div>
+        <div class="APreviewCourseName">
+          Section 1: What “insecure design” really means
+        </div>
+      </div>
+
+      <nav class="APreviewList" aria-label="Preview playlist">
+        <a class="APreviewItem APreviewItem--active" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Security bugs vs insecure design: where the gap is
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:10</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Common design failures: trust assumptions and missing controls
+            </div>
+          </div>
+          <div class="APreviewItemTime">4:25</div>
+        </a>
+        <a class="APreviewItem" href="#">
+          <div class="APreviewThumb"></div>
+          <div class="APreviewMid">
+            <div class="APreviewItemTitle">
+              Design review checklist (downloadable)
+            </div>
+          </div>
+          <div class="APreviewItemTime">3:20</div>
+        </a>
+      </nav>
+    </main>
+  </body>
+</html>
+
+

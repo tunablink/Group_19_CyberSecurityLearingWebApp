@@ -1,0 +1,334 @@
+﻿<!doctype html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../dashboard/dashboard.css" />
+  </head>
+
+  <body>
+    <h1>Hello World 1234git status</h1>
+    <!-- NAVBAR -->
+    <div th:replace="~{fragments/navbar_user :: navbar_user}"></div>
+
+    <!-- dashboard.html -->
+    <main id="dashboard" class="dashboard">
+      <div class="dashboard__container">
+        <div class="dashboard__grid">
+          <!-- LEFT / MAIN -->
+          <section id="dashboard-main" class="dashboard__main">
+            <!-- Greeting -->
+            <article class="dashboard-card dashboard-card--greeting">
+              <div class="dashboard-greeting">
+                <div class="dashboard-greeting__mascot" aria-hidden="true">
+                  <!-- simple mascot placeholder -->
+                  <svg width="42" height="42" viewBox="0 0 42 42">
+                    <circle
+                      cx="21"
+                      cy="21"
+                      r="20"
+                      fill="#19c37d"
+                      opacity="0.15"
+                    />
+                    <path
+                      d="M10 24c0-8 7-14 11-14s11 6 11 14-6 10-11 10-11-2-11-10Z"
+                      fill="#19c37d"
+                      opacity="0.9"
+                    />
+                    <circle cx="18" cy="22" r="3" fill="#0b0f14" />
+                    <circle cx="26" cy="22" r="3" fill="#0b0f14" />
+                    <path
+                      d="M15 15c3-5 9-6 12 0"
+                      stroke="#19c37d"
+                      stroke-width="2"
+                      fill="none"
+                    />
+                  </svg>
+                </div>
+
+                <div class="dashboard-greeting__content">
+                  <h2 class="dashboard-greeting__title">Hey Duy!</h2>
+                  <p class="dashboard-greeting__subtitle">
+                    You can see an overview of your learning progress here!
+                  </p>
+                </div>
+              </div>
+            </article>
+
+            <!-- Complete first room -->
+            <article class="dashboard-card dashboard-card--firstroom">
+              <h3 class="dashboard-card__title">
+                Complete your first room to unlock your dashboard and boost your
+                chances of reaching your goals!
+              </h3>
+
+              <div class="dashboard-room">
+                <div class="dashboard-room__item dashboard-room__item--active">
+                  <div class="dashboard-room__icon" aria-hidden="true">
+                    <!-- pin icon placeholder -->
+                    <svg width="22" height="22" viewBox="0 0 24 24">
+                      <path
+                        d="M14 2 10 6v5L7 14l3 3 3-3h5l4-4-8-8Z"
+                        fill="currentColor"
+                        opacity="0.25"
+                      />
+                      <path
+                        d="M10 6h4l6 6-2 2h-4l-4-4V6Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </div>
+
+                  <div class="dashboard-room__meta">
+                    <div class="dashboard-room__name-row">
+                      <p class="dashboard-room__name">Introduction</p>
+                      <span class="dashboard-badge" title="New">NEW</span>
+                    </div>
+                    <p class="dashboard-room__desc">
+                      Make sure you grasp the basics yourself to ensure you have
+                      the minimum foundation to participate in the course!
+                    </p>
+                  </div>
+
+                  <a
+                    class="dashboard-btn dashboard-btn--primary"
+                    type="button"
+                    th:href="@{/learn}"
+                  >
+                    Complete my first room
+                  </a>
+                </div>
+
+                <div
+                  class="dashboard-room__item dashboard-room__item--disabled"
+                >
+                  <div class="dashboard-room__icon" aria-hidden="true">
+                    <img
+                      class="dashboard-room__icon"
+                      th:src="@{/images/Only_know.png}"
+                    />
+                  </div>
+                  <div class="dashboard-room__meta">
+                    <p class="dashboard-room__name">
+                      Knowledge Only (What you need to know)
+                    </p>
+                    <p class="dashboard-room__desc">
+                      Learn core concepts, causes, impacts, and key
+                      terms—understand what the issue is and why it matters.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="dashboard-room__item dashboard-room__item--disabled"
+                >
+                  <div class="dashboard-room__icon" aria-hidden="true">
+                    <img
+                      class="dashboard-room__icon"
+                      th:src="@{/images/test-check.png}"
+                    />
+                  </div>
+                  <div class="dashboard-room__meta">
+                    <p class="dashboard-room__name">
+                      Knowledge Check Only (How to test understanding)
+                    </p>
+                    <p class="dashboard-room__desc">
+                      Answer questions or quizzes to verify understanding of
+                      concepts, risks, and correct mitigation choices.
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  class="dashboard-room__item dashboard-room__item--disabled"
+                >
+                  <div class="dashboard-room__icon" aria-hidden="true">
+                    <img
+                      class="dashboard-room__icon"
+                      th:src="@{/images/learning-lab.png}"
+                    />
+                  </div>
+                  <div class="dashboard-room__meta">
+                    <p class="dashboard-room__name">
+                      Practice Only (Hands-on activities)
+                    </p>
+                    <p class="dashboard-room__desc">
+                      Do hands-on labs to identify, exploit safely, and fix
+                      vulnerabilities using real tools and scenarios.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Bronze League -->
+            <article class="dashboard-card dashboard-card--league">
+              <div class="dashboard-league__header">
+                <div>
+                  <h3 class="dashboard-card__title">Bronze League</h3>
+                  <p class="dashboard-card__hint">5 days left to join</p>
+                </div>
+              </div>
+
+              <div class="dashboard-league">
+                <div class="dashboard-league__hero" aria-hidden="true">
+                  <!-- simple badge placeholder -->
+                  <div class="dashboard-league__badge"></div>
+                </div>
+
+                <p class="dashboard-league__title">
+                  Solve two rooms and grab your Bronze spot!
+                </p>
+                <p class="dashboard-league__subtitle">
+                  Top players are already inside.
+                </p>
+
+                <button
+                  class="dashboard-btn dashboard-btn--ghost"
+                  type="button"
+                >
+                  View league
+                </button>
+              </div>
+            </article>
+          </section>
+
+          <!-- RIGHT / SIDEBAR -->
+          <aside id="dashboard-sidebar" class="dashboard__sidebar">
+            <!-- Weekly mission -->
+            <article class="dashboard-card dashboard-card--mission">
+              <div class="dashboard-mission__top">
+                <div class="dashboard-mission__timer">
+                  <span class="dashboard-dot"></span>
+                  <span>5 days to next mission</span>
+                </div>
+              </div>
+
+              <div class="dashboard-mission__header">
+                <div class="dashboard-mission__chest" aria-hidden="true">
+                  <!-- chest placeholder -->
+                  <svg width="40" height="40" viewBox="0 0 64 64">
+                    <rect
+                      x="10"
+                      y="24"
+                      width="44"
+                      height="28"
+                      rx="6"
+                      fill="#19c37d"
+                      opacity="0.18"
+                    />
+                    <rect
+                      x="14"
+                      y="28"
+                      width="36"
+                      height="20"
+                      rx="5"
+                      fill="#19c37d"
+                      opacity="0.35"
+                    />
+                    <rect
+                      x="28"
+                      y="24"
+                      width="8"
+                      height="28"
+                      fill="#19c37d"
+                      opacity="0.55"
+                    />
+                    <rect
+                      x="22"
+                      y="34"
+                      width="20"
+                      height="8"
+                      rx="4"
+                      fill="#19c37d"
+                    />
+                  </svg>
+                </div>
+
+                <div>
+                  <h3 class="dashboard-card__title">Weekly Mission</h3>
+                  <p class="dashboard-card__hint">What’s in the chest? 👀</p>
+                </div>
+              </div>
+
+              <div class="dashboard-mission__rows">
+                <div class="dashboard-mission__row">
+                  <div class="dashboard-mission__row-title">
+                    <span>Answer Questions</span>
+                    <span class="dashboard-mission__value">0 / 6</span>
+                  </div>
+                  <div class="dashboard-progress">
+                    <div
+                      class="dashboard-progress__bar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+
+                <div class="dashboard-mission__row">
+                  <div class="dashboard-mission__row-title">
+                    <span>Earn Points</span>
+                    <span class="dashboard-mission__value">0 / 407</span>
+                  </div>
+                  <div class="dashboard-progress">
+                    <div
+                      class="dashboard-progress__bar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+
+                <div class="dashboard-mission__row">
+                  <div class="dashboard-mission__row-title">
+                    <span>Complete Rooms</span>
+                    <span class="dashboard-mission__value">0 / 7</span>
+                  </div>
+                  <div class="dashboard-progress">
+                    <div
+                      class="dashboard-progress__bar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Questions answered -->
+            <article class="dashboard-card dashboard-card--questions">
+              <h3 class="dashboard-card__title">0 Questions answered</h3>
+              <p class="dashboard-card__hint">this week</p>
+              <div class="dashboard-divider"></div>
+            </article>
+
+            <!-- Your stats (locked) -->
+            <article class="dashboard-card dashboard-card--stats">
+              <div class="dashboard-card__row">
+                <h3 class="dashboard-card__title">Your Stats</h3>
+                <button class="dashboard-btn dashboard-btn--mini" type="button">
+                  Go to profile
+                </button>
+              </div>
+
+              <div class="dashboard-lock">
+                <div class="dashboard-lock__icon" aria-hidden="true">
+                  <svg width="22" height="22" viewBox="0 0 24 24">
+                    <path
+                      d="M7 10V8a5 5 0 0 1 10 0v2h1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h1Zm2 0h6V8a3 3 0 0 0-6 0v2Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                </div>
+                <p class="dashboard-lock__text">
+                  Complete the first room of your path to unlock this feature.
+                </p>
+              </div>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    
+  </body>
+</html>
+
