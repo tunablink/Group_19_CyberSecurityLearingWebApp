@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../dashboard/dashboard.css" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
 
   <body>
@@ -336,7 +336,7 @@
         // const token = localStorage.getItem('auth-key');
         // if (!token) {
         //   console.error('No JWT token found in localStorage. Redirecting to login.');
-        //   window.location.href = '/login'; // トークンがない場合はログインページへリダイレクト
+        //   window.location.href = '/login'; //
         //   return;
         // }
         try {
