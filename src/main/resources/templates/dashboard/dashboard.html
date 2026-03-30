@@ -191,6 +191,9 @@
                 </button>
               </div>
             </article>
+
+            <div id="module-list" class="dashboard-modules">
+            </div>
           </section>
 
           <!-- RIGHT / SIDEBAR -->
@@ -348,13 +351,38 @@
           if (response.ok) {
             const modules = await response.json();
             console.log('Fetched Modules:', modules);
+            renderModules(modules);
           }
         } catch (error) {
           console.error('Error during module fetch:', error);
-          // ネットワークエラーなどの場合
           alert('Network error. Could not connect to the server.');
         }
       });
+
+      function renderModules(modules) {
+        const moduleListContainer = document.getElementById('module-list');
+        if (moduleListContainer) {
+            modules.forEach(module => {
+                const moduleCard = document.createElement('div');
+                moduleCard.className = 'module-card';
+                
+                const moduleTitle = document.createElement('h3');
+                moduleTitle.textContent = module.name;
+                
+                const moduleDescription = document.createElement('p');
+                moduleDescription.textContent = module.description;
+                
+                const moduleStatus = document.createElement('span');
+                moduleStatus.textContent = `Status: ${module.status}`;
+                moduleStatus.className = `module-status module-status--${module.status.toLowerCase().replace(/\s/g, '-')}`;
+                
+                moduleCard.appendChild(moduleTitle);
+                moduleCard.appendChild(moduleDescription);
+                moduleCard.appendChild(moduleStatus);
+                moduleListContainer.appendChild(moduleCard);
+            });
+        }
+    }
     </script>
   </body>
 </html>
