@@ -19,7 +19,7 @@
             </p>
           </header>
 
-          <form class="login-form" th:action="@{/login}" method="post">
+          <form class="login-form" id="login-form">
             <label class="form-field">
               <span class="form-field__label">Username or email</span>
               <input
@@ -106,5 +106,68 @@
         </section>
       </div>
     </main>
+    
+    <script>
+      const auth_key = "auth-key";
+      const form = document.getElementById('login-form');
+
+      function showLoginError(message) {
+          let errorElement = document.getElementById('login-error');
+          
+          if (!errorElement) {
+              errorElement = document.createElement('p');
+              errorElement.id = 'login-error';
+              errorElement.style.color = 'red';
+              errorElement.style.textAlign = 'center';
+              const submitButton = form.querySelector('.login-submit');
+              form.insertBefore(errorElement, submitButton);
+          }
+          
+          errorElement.textContent = message || '';
+      }
+
+      function clearLoginError() {
+          const errorElement = document.getElementById('login-error');
+          if (errorElement) {
+              errorElement.textContent = '';
+          }
+      }
+
+      form.addEventListener('submit', async (event) => {
+          event.preventDefault();
+
+          const usernameInput = form.querySelector('input[name="username"]');
+          const passwordInput = form.querySelector('input[name="password"]');
+          const username = usernameInput.value;
+          const password = passwordInput.value;
+
+          clearLoginError();
+
+          try {
+              const response = await fetch('/auth/login', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ username, password }),
+              });
+
+              if (response.ok) {
+                  const data = await response.json();
+                  localStorage.setItem(auth_key, data.token);
+                  window.location.href = '/dashboard';
+              } else {
+                  const errorData = await response.json().catch(() => ({ 
+                      message: 'Login failed. Please check your credentials.' 
+                  }));
+                  showLoginError(errorData.message || 'An unknown error occurred.');
+                  console.error('Login failed:', response.status, response.statusText, errorData);
+              }
+          } catch (error) {
+              showLoginError('Error communicating with the server.');
+              console.error('Error during login:', error);
+          }
+      });
+    </script>
   </body>
 </html>
