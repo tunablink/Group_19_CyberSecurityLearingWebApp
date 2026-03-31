@@ -1060,3 +1060,64 @@ body {
     filter: brightness(0.95);
   }
 }
+
+/* Module List Styling */
+.dashboard-modules {
+  margin-top: 20px; /* 上の要素との間隔 */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* レスポンシブなグリッド */
+  gap: 20px; /* グリッドアイテム間の間隔 */
+}
+
+.module-card {
+  background: var(--card); /* カードの背景色 */
+  border: 1px solid var(--border); /* カードのボーダー */
+  border-radius: var(--radius); /* カードの角丸 */
+  box-shadow: var(--shadow); /* カードの影 */
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.module-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.module-card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.module-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.module-status--completed {
+  background: var(--green-soft);
+  color: var(--green-2);
+  border: 1px solid rgba(18, 183, 106, 0.25);
+}
+
+.module-status--in-progress {
+  background: rgba(245, 158, 11, 0.12); /* オレンジ系のソフトカラー */
+  color: #f59e0b; /* オレンジ系のテキストカラー */
+  border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.module-status--not-started {
+  background: rgba(107, 114, 128, 0.12); /* グレー系のソフトカラー */
+  color: #6b7280; /* グレー系のテキストカラー */
+  border: 1px solid rgba(107, 114, 128, 0.25);
+}
