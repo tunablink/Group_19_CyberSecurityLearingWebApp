@@ -1,6 +1,6 @@
-package com.example.blog_web.controller;
+package com.example.blog_web.controllers;
 
-import com.example.blog_web.model.Module;
+import com.example.blog_web.models.Module;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

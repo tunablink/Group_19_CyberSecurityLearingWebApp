@@ -1,4 +1,4 @@
-package com.example.blog_web.model;
+package com.example.blog_web.models;
 
 public class LoginRequest {
     private String username;

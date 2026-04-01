@@ -146,6 +146,7 @@
           try {
               const response = await fetch('/auth/login', {
                   method: 'POST',
+                  credentials: 'include',
                   headers: {
                       'Content-Type': 'application/json',
                   },
@@ -155,7 +156,7 @@
               if (response.ok) {
                   const data = await response.json();
                   localStorage.setItem(auth_key, data.token);
-                  window.location.href = '/dashboard';
+                  window.location.href = '/learn';
               } else {
                   const errorData = await response.json().catch(() => ({ 
                       message: 'Login failed. Please check your credentials.' 

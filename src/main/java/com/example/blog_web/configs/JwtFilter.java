@@ -1,4 +1,4 @@
-package com.example.blog_web.config;
+package com.example.blog_web.configs;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

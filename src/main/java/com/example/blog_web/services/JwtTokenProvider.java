@@ -1,6 +1,6 @@
-package com.example.blog_web.serivce;
+package com.example.blog_web.services;
 
-import com.example.blog_web.model.MyUserDetails;
+import com.example.blog_web.models.MyUserDetails;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;

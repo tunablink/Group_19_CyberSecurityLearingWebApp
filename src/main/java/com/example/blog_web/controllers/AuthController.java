@@ -1,11 +1,11 @@
-package com.example.blog_web.controller;
+package com.example.blog_web.controllers;
 
-import com.example.blog_web.model.LoginRequest;
-import com.example.blog_web.model.LoginResponse;
-import com.example.blog_web.model.User;
-import com.example.blog_web.model.UserDto;
-import com.example.blog_web.repository.UserRepository;
-import com.example.blog_web.serivce.JwtTokenProvider;
+import com.example.blog_web.models.LoginRequest;
+import com.example.blog_web.models.LoginResponse;
+import com.example.blog_web.models.User;
+import com.example.blog_web.models.UserDto;
+import com.example.blog_web.repositories.UserRepository;
+import com.example.blog_web.services.JwtTokenProvider;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Map;
 
@@ -33,6 +38,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
 
     public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtTokenProvider tokenProvider) {
         this.userRepository = userRepository;
@@ -43,7 +49,9 @@ public class AuthController {
 
     @PostMapping("/auth/login")
     @ResponseBody
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest,
+                                              HttpServletRequest request,
+                                              HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -53,6 +61,8 @@ public class AuthController {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            request.getSession(true);
+            securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, response);
             String jwt = tokenProvider.generateToken(authentication);
             System.out.println("✅ Authentication successful for user: " + loginRequest.getUsername());
             return ResponseEntity.ok(new LoginResponse(jwt));
@@ -81,6 +91,9 @@ public class AuthController {
                                  Model model) {
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
             result.rejectValue("username", "error.username", "Username đã tồn tại!");
+        }
+        if (userDto.getPassword() != null && !userDto.getPassword().equals(userDto.getConfirmPassword())) {
+            result.rejectValue("confirmPassword", "error.confirmPassword", "Mật khẩu xác nhận không khớp!");
         }
 
         if (result.hasErrors()) {
