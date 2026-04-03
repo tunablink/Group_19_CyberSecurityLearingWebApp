@@ -340,7 +340,7 @@
         //   return;
         // }
         try {
-          const response = await fetch('/api/modules', {
+          const response = await fetch('/api/dashboard/learning-path', {
             method: 'GET',
             headers: {
               // 'Authorization': 'Bearer ' + token,
@@ -349,9 +349,11 @@
           });
 
           if (response.ok) {
-            const modules = await response.json();
-            console.log('Fetched Modules:', modules);
-            renderModules(modules);
+            const dashboardData = await response.json();
+            console.log('Fetched Dashboard:', dashboardData);
+            renderModules(dashboardData.modules || []);
+          } else {
+            alert('Unable to load learning path data.');
           }
         } catch (error) {
           console.error('Error during module fetch:', error);

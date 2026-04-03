@@ -34,6 +34,8 @@ public class SecurityCfg {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/css/**", "/images/**", "/js/**").permitAll()
                         .requestMatchers("/", "/login", "/register", "/learn-guest/**").permitAll()
+                        .requestMatchers("/api/dashboard/**").hasAnyAuthority("USER", "LEARNER")
+                        .requestMatchers("/api/labs/**", "/api/quizzes/**", "/api/progress/**").hasAnyAuthority("USER", "LEARNER")
                         .requestMatchers("/dashboard/**", "/learn/**", "/lab/**", "/member/**").authenticated()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll()

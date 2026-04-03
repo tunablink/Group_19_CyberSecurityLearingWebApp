@@ -1,30 +1,32 @@
 package com.example.blog_web.controllers;
 
 import com.example.blog_web.models.Module;
+import com.example.blog_web.services.ModuleService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class ModuleController {
 
-    @GetMapping("/modules")
-    public List<Module> getModules() {
-        // TODO get from DB
-        // ADD JWT auth
-        return SampleModulesList();
+    private final ModuleService moduleService;
+
+    public ModuleController(ModuleService moduleService) {
+        this.moduleService = moduleService;
     }
 
-    private List<Module> SampleModulesList() {
-        return Arrays.asList(
-                new Module(1L, "Introduction to Cybersecurity", "Learn the basics of cybersecurity.", "Completed"),
-                new Module(2L, "Web Application Security", "Explore common web vulnerabilities.", "In Progress"),
-                new Module(3L, "Network Security Fundamentals", "Understand network defense mechanisms.", "Not Started"),
-                new Module(4L, "Cryptography Basics", "Dive into encryption and hashing.", "Not Started")
-        );
+    @GetMapping("/modules")
+    public List<Module> getModules() {
+        return moduleService.getAllModules();
+    }
+
+    @GetMapping("/modules/{id}")
+    public Module getModuleById(@PathVariable Long id) {
+        // UC-09: allow learners to open a specific module by id.
+        return moduleService.getModuleById(id);
     }
 }
