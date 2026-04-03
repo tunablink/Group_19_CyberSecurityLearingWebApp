@@ -1,0 +1,37 @@
+package com.example.blog_web.controllers;
+
+import com.example.blog_web.models.LabValidationRequestDto;
+import com.example.blog_web.models.LabValidationResponseDto;
+import com.example.blog_web.services.LabService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+
+@RestController
+@RequestMapping("/api/labs")
+public class LabApiController {
+    private final LabService labService;
+
+    public LabApiController(LabService labService) {
+        this.labService = labService;
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<LabValidationResponseDto> validateLab(@Valid @RequestBody LabValidationRequestDto request,
+                                                                Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            throw new ResponseStatusException(UNAUTHORIZED, "Unauthorized");
+        }
+
+        // Validation strategy is selected at runtime by factory.
+        LabValidationResponseDto response = labService.validateLab(request.getLabType(), request.getInput());
+        return ResponseEntity.ok(response);
+    }
+}
