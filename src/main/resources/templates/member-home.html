@@ -1,9 +1,77 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><title>Member Area</title></head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <!-- Assuming a shared CSS file exists for consistent styling -->
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <style>
+        body {
+            background-color: #f6f7fb;
+            padding-top: 89px; /* Height of the navbar */
+        }
+        .profile-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #e6eaf2;
+            border-radius: 6px;
+            box-shadow: 0 14px 40px rgba(16, 24, 40, 0.08);
+        }
+        .profile-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e6eaf2;
+            padding-bottom: 15px;
+        }
+        .profile-header h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+        .profile-details p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #52607a;
+        }
+        .profile-details strong {
+            color: #0b1220;
+            min-width: 120px;
+            display: inline-block;
+        }
+    </style>
+</head>
 <body>
-<h1>Chào mừng đến Member Area!</h1>
-<p>Bạn đã đăng nhập thành công.</p>
-<a th:href="@{/}">Về trang chủ</a>
+
+<!-- Include the logged-in user's navbar -->
+<div th:replace="~{fragments/navbar_user :: navbar_user}"></div>
+
+<main class="profile-container">
+    <div class="profile-header">
+        <h1>Account Information</h1>
+    </div>
+
+    <!-- Check if user object exists -->
+    <div th:if="${user}" class="profile-details">
+        <p>
+            <strong>Username:</strong>
+            <span th:text="${user.username}">user.name@example.com</span>
+        </p>
+        <p>
+            <strong>Roles:</strong>
+            <span th:text="${user.roles}">USER</span>
+        </p>
+        <p>
+            <strong>Address:</strong>
+            <span th:text="${user.address}">123 Example Street</span>
+        </p>
+    </div>
+
+    <!-- Fallback message if user object is not found -->
+    <div th:unless="${user}">
+        <p>Could not load user information.</p>
+    </div>
+</main>
+
 </body>
 </html>
