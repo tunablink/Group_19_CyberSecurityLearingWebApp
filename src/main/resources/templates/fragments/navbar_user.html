@@ -70,7 +70,7 @@
         <a class="login-mobile-action" href="#">Search</a>
         <a class="login-mobile-action" href="#">Notifications</a>
         <a class="login-mobile-action" th:href="@{/learn}">Avatar</a>
-        <a class="login-mobile-action login-mobile-action--solid" th:href="@{/logout}">Logout</a>
+        <a href="#" id="logout-mobile" class="login-mobile-action login-mobile-action--solid">Logout</a>
       </div>
     </div>
   </div>
@@ -89,6 +89,11 @@
     const logoutDesktop = document.getElementById('logout-desktop');
     if (logoutDesktop) {
       logoutDesktop.addEventListener('click', handleLogout);
+    }
+
+    const logoutMobile = document.getElementById('logout-mobile');
+    if (logoutMobile) {
+      logoutMobile.addEventListener('click', handleLogout);
     }
   </script>
 </header>
