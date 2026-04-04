@@ -44,6 +44,7 @@
           <img class="login-user__img" th:src="@{/images/user-avatar.png}" alt="User avatar" />
         </span>
       </a>
+      <a href="#" id="logout-desktop" class="login-btn login-btn--outline">Logout</a>
     </div>
 
     <!-- MOBILE -->
@@ -73,6 +74,23 @@
       </div>
     </div>
   </div>
+
+  <script>
+    const auth_key = "auth-key";
+
+    function handleLogout(event) {
+      event.preventDefault();
+  
+      // Client-side cleanup and redirect
+      localStorage.removeItem(auth_key);
+      window.location.href = '/login';
+    }
+
+    const logoutDesktop = document.getElementById('logout-desktop');
+    if (logoutDesktop) {
+      logoutDesktop.addEventListener('click', handleLogout);
+    }
+  </script>
 </header>
 </body>
 </html>
