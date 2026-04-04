@@ -28,6 +28,10 @@
         <img class="login-nav__icon" th:src="@{/images/certification.png}" alt="" />
         <span class="login-nav__label">Certifications</span>
       </a>
+      <!-- <a class="login-nav__item" th:href="@{/member/home}">
+        <img class="login-nav__icon" th:src="@{/images/user-avatar.png}" alt="" />
+        <span class="login-nav__label">My Profile</span>
+      </a> -->
     </nav>
 
     <div class="login-header__actions">
@@ -39,7 +43,7 @@
         <img class="login-header__icon" th:src="@{/images/bell.png}" alt="" />
       </button>
 
-      <a class="login-user" th:href="@{/learn}" aria-label="Profile">
+      <a class="login-user" th:href="@{/member/home}" aria-label="Profile">
         <span class="login-user__avatar">
           <img class="login-user__img" th:src="@{/images/user-avatar.png}" alt="User avatar" />
         </span>
@@ -61,6 +65,7 @@
         <a class="login-mobile-link" th:href="@{/learn}">Compete</a>
         <a class="login-mobile-link" th:href="@{/learn}">Education</a>
         <a class="login-mobile-link" th:href="@{/learn}">Certifications</a>
+        <a class="login-mobile-link" th:href="@{/member/home}">My Profile</a>
       </div>
 
       <div class="login-mobile-divider"></div>
