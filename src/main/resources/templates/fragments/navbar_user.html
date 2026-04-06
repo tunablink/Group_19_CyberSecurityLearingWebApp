@@ -9,24 +9,20 @@
 
     <nav class="login-nav" aria-label="Primary">
       <a class="login-nav__item" th:href="@{/dashboard}">
-        <img class="login-nav__icon" th:src="@{/images/practice.png}" alt="" />
+        <img class="login-nav__icon" th:src="@{/images/dashboard.svg}" alt="" />
         <span class="login-nav__label">Dashboard</span>
       </a>
       <a class="login-nav__item" th:href="@{/learn}">
         <img class="login-nav__icon" th:src="@{/images/learn.png}" alt="" />
         <span class="login-nav__label">Learn</span>
       </a>
-      <a class="login-nav__item" th:href="@{/learn}">
+      <a class="login-nav__item" th:href="@{/lab}">
+        <img class="login-nav__icon" th:src="@{/images/practice.png}" alt="" />
+        <span class="login-nav__label">Practice</span>
+      </a>
+      <a class="login-nav__item" th:href="@{/compete}">
         <img class="login-nav__icon" th:src="@{/images/complete.png}" alt="" />
         <span class="login-nav__label">Compete</span>
-      </a>
-      <a class="login-nav__item" th:href="@{/learn}">
-        <img class="login-nav__icon" th:src="@{/images/education.png}" alt="" />
-        <span class="login-nav__label">Education</span>
-      </a>
-      <a class="login-nav__item" th:href="@{/learn}">
-        <img class="login-nav__icon" th:src="@{/images/certification.png}" alt="" />
-        <span class="login-nav__label">Certifications</span>
       </a>
       <!-- <a class="login-nav__item" th:href="@{/member/home}">
         <img class="login-nav__icon" th:src="@{/images/user-avatar.png}" alt="" />
@@ -63,9 +59,8 @@
       <div class="login-mobile-section login-mobile-section--top">
         <a class="login-mobile-link" th:href="@{/dashboard}">Dashboard</a>
         <a class="login-mobile-link" th:href="@{/learn}">Learn</a>
-        <a class="login-mobile-link" th:href="@{/learn}">Compete</a>
-        <a class="login-mobile-link" th:href="@{/learn}">Education</a>
-        <a class="login-mobile-link" th:href="@{/learn}">Certifications</a>
+        <a class="login-mobile-link" th:href="@{/lab}">Practice</a>
+        <a class="login-mobile-link" th:href="@{/compete}">Compete</a>
         <a class="login-mobile-link" th:href="@{/member/home}">My Profile</a>
       </div>
 

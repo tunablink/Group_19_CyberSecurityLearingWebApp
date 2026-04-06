@@ -8,25 +8,21 @@
     </a>
 
     <nav class="login-nav" aria-label="Primary">
+      <a class="login-nav__item" th:href="@{/login}">
+        <img class="login-nav__icon" th:src="@{/images/dashboard.svg}" alt="" />
+        <span class="login-nav__label">Dashboard</span>
+      </a>
       <a class="login-nav__item" th:href="@{/learn-guest}">
         <img class="login-nav__icon" th:src="@{/images/learn.png}" alt="" />
         <span class="login-nav__label">Learn</span>
       </a>
-      <a class="login-nav__item" th:href="@{/learn-guest}">
+      <a class="login-nav__item" th:href="@{/login}">
         <img class="login-nav__icon" th:src="@{/images/practice.png}" alt="" />
         <span class="login-nav__label">Practice</span>
       </a>
       <a class="login-nav__item" th:href="@{/login}">
         <img class="login-nav__icon" th:src="@{/images/complete.png}" alt="" />
         <span class="login-nav__label">Compete</span>
-      </a>
-      <a class="login-nav__item" th:href="@{/login}">
-        <img class="login-nav__icon" th:src="@{/images/education.png}" alt="" />
-        <span class="login-nav__label">Education</span>
-      </a>
-      <a class="login-nav__item" th:href="@{/login}">
-        <img class="login-nav__icon" th:src="@{/images/certification.png}" alt="" />
-        <span class="login-nav__label">Certifications</span>
       </a>
     </nav>
 
@@ -49,11 +45,10 @@
 
     <div class="login-mobile-panel" aria-label="Mobile menu">
       <div class="login-mobile-section login-mobile-section--top">
+        <a class="login-mobile-link" th:href="@{/login}">Dashboard</a>
         <a class="login-mobile-link" th:href="@{/learn-guest}">Learn</a>
-        <a class="login-mobile-link" th:href="@{/learn-guest}">Practice</a>
+        <a class="login-mobile-link" th:href="@{/login}">Practice</a>
         <a class="login-mobile-link" th:href="@{/login}">Compete</a>
-        <a class="login-mobile-link" th:href="@{/login}">Education</a>
-        <a class="login-mobile-link" th:href="@{/login}">Certifications</a>
         <a class="login-mobile-link" th:href="@{/}">Home</a>
       </div>
 
