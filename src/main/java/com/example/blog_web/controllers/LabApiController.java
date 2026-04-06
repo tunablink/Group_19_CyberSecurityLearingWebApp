@@ -1,5 +1,6 @@
 package com.example.blog_web.controllers;
 
+import com.example.blog_web.compete.service.TournamentPointService;
 import com.example.blog_web.models.LabValidationRequestDto;
 import com.example.blog_web.models.LabValidationResponseDto;
 import com.example.blog_web.services.LabService;
@@ -18,9 +19,11 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 @RequestMapping("/api/labs")
 public class LabApiController {
     private final LabService labService;
+    private final TournamentPointService tournamentPointService;
 
-    public LabApiController(LabService labService) {
+    public LabApiController(LabService labService, TournamentPointService tournamentPointService) {
         this.labService = labService;
+        this.tournamentPointService = tournamentPointService;
     }
 
     @PostMapping("/validate")
@@ -32,6 +35,9 @@ public class LabApiController {
 
         // Validation strategy is selected at runtime by factory.
         LabValidationResponseDto response = labService.validateLab(request.getLabType(), request.getInput());
+        if (response.isSuccess()) {
+            tournamentPointService.recordAfterLabPass(authentication.getName(), request.getLabType());
+        }
         return ResponseEntity.ok(response);
     }
 }

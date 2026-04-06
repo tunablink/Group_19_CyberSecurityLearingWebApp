@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS user_compete_profile (
     user_id BIGINT NOT NULL PRIMARY KEY,
     timezone VARCHAR(64) NOT NULL DEFAULT 'UTC',
     timezone_band VARCHAR(8) NOT NULL DEFAULT 'AM2',
+    bracket VARCHAR(16) NOT NULL DEFAULT 'CORE',
     use_alias TINYINT(1) NOT NULL DEFAULT 0,
     show_global_board TINYINT(1) NOT NULL DEFAULT 0,
     auto_enroll TINYINT(1) NOT NULL DEFAULT 1,

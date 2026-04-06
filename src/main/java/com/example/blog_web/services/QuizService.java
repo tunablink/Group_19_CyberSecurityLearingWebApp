@@ -1,5 +1,6 @@
 package com.example.blog_web.services;
 
+import com.example.blog_web.compete.service.TournamentPointService;
 import com.example.blog_web.models.QuizSubmitRequestDto;
 import com.example.blog_web.models.QuizSubmitResponseDto;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,13 @@ import java.util.Map;
 public class QuizService {
     private static final int PASSING_SCORE = 70;
     private final CyPromProgressService cyPromProgressService;
+    private final TournamentPointService tournamentPointService;
 
-    public QuizService(CyPromProgressService cyPromProgressService) {
+    public QuizService(
+            CyPromProgressService cyPromProgressService,
+            TournamentPointService tournamentPointService) {
         this.cyPromProgressService = cyPromProgressService;
+        this.tournamentPointService = tournamentPointService;
     }
 
     public QuizSubmitResponseDto submitQuiz(String username, QuizSubmitRequestDto request) {
@@ -37,6 +42,10 @@ public class QuizService {
         boolean passed = score >= PASSING_SCORE;
 
         cyPromProgressService.recordQuizResult(username, request.getModuleId(), score, passed);
+
+        if (passed) {
+            tournamentPointService.recordAfterQuizPass(username, request.getModuleId());
+        }
 
         String message = passed
                 ? "Quiz passed. Next module can be unlocked."
