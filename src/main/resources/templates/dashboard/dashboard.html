@@ -57,9 +57,17 @@
                   <h2 class="dashboard-greeting__title" th:unless="${user}">
                     Hey there!
                   </h2>
-                  <p class="dashboard-greeting__subtitle">
+                  <p
+                    class="dashboard-greeting__subtitle"
+                    id="dashboard-greeting-subtitle"
+                  >
                     You can see an overview of your learning progress here!
                   </p>
+                  <p
+                    class="dashboard-greeting__hint"
+                    id="dashboard-learning-stats"
+                    hidden
+                  ></p>
                 </div>
               </div>
             </article>
@@ -90,10 +98,12 @@
 
                   <div class="dashboard-room__meta">
                     <div class="dashboard-room__name-row">
-                      <p class="dashboard-room__name">Introduction</p>
+                      <p class="dashboard-room__name" id="dashboard-first-room-name">
+                        Introduction
+                      </p>
                       <span class="dashboard-badge" title="New">NEW</span>
                     </div>
-                    <p class="dashboard-room__desc">
+                    <p class="dashboard-room__desc" id="dashboard-first-room-desc">
                       Make sure you grasp the basics yourself to ensure you have
                       the minimum foundation to participate in the course!
                     </p>
@@ -170,12 +180,16 @@
               </div>
             </article>
 
-            <!-- Bronze League -->
+            <!-- Compete week / bracket (from /api/compete/me/summary) -->
             <article class="dashboard-card dashboard-card--league">
               <div class="dashboard-league__header">
                 <div>
-                  <h3 class="dashboard-card__title">Bronze League</h3>
-                  <p class="dashboard-card__hint">5 days left to join</p>
+                  <h3 class="dashboard-card__title" id="dashboard-league-title">
+                    Compete
+                  </h3>
+                  <p class="dashboard-card__hint" id="dashboard-league-hint">
+                    Loading…
+                  </p>
                 </div>
               </div>
 
@@ -185,22 +199,23 @@
                   <div class="dashboard-league__badge"></div>
                 </div>
 
-                <p class="dashboard-league__title">
-                  Solve two rooms and grab your Bronze spot!
+                <p class="dashboard-league__title" id="dashboard-league-tagline">
+                  Weekly tournament &amp; leaderboard.
                 </p>
-                <p class="dashboard-league__subtitle">
-                  Top players are already inside.
+                <p class="dashboard-league__subtitle" id="dashboard-league-sub">
+                  Season progress and caps update from your account.
                 </p>
 
-                <button
+                <a
                   class="dashboard-btn dashboard-btn--ghost"
-                  type="button"
+                  th:href="@{/compete/leaderboard}"
                 >
                   View league
-                </button>
+                </a>
               </div>
             </article>
 
+            <div id="dashboard-suggested-next" class="dashboard-suggested" hidden></div>
             <div id="module-list" class="dashboard-modules">
             </div>
           </section>
@@ -342,57 +357,195 @@
 
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        // const token = localStorage.getItem('auth-key');
-        // if (!token) {
-        //   console.error('No JWT token found in localStorage. Redirecting to login.');
-        //   window.location.href = '/login'; //
-        //   return;
-        // }
-        try {
-          const response = await fetch('/api/modules', {
-            method: 'GET',
-            headers: {
-              // 'Authorization': 'Bearer ' + token,
-              'Content-Type': 'application/json'
-            }
-          });
+        const fetchOpts = { credentials: 'same-origin' };
 
-          if (response.ok) {
-            const modules = await response.json();
-            console.log('Fetched Modules:', modules);
-            renderModules(modules);
+        try {
+          const lpRes = await fetch('/api/dashboard/learning-path', fetchOpts);
+          if (lpRes.ok) {
+            const lp = await lpRes.json();
+            applyLearningPath(lp);
+          } else {
+            // learning-path が 403 等のときは従来どおり /api/modules で一覧だけ出す
+            await loadModulesFallback(fetchOpts);
           }
         } catch (error) {
-          console.error('Error during module fetch:', error);
-          alert('Network error. Could not connect to the server.');
+          console.error('learning-path:', error);
+          await loadModulesFallback(fetchOpts);
+        }
+
+        try {
+          const cRes = await fetch('/api/compete/me/summary', fetchOpts);
+          if (cRes.ok) {
+            const summary = await cRes.json();
+            applyCompeteSummary(summary);
+          } else {
+            const hint = document.getElementById('dashboard-league-hint');
+            if (hint) {
+              hint.textContent = 'Compete data unavailable.';
+            }
+          }
+        } catch (error) {
+          console.error('compete summary:', error);
+          const hint = document.getElementById('dashboard-league-hint');
+          if (hint) {
+            hint.textContent = 'Could not load compete summary.';
+          }
         }
       });
 
+      async function loadModulesFallback(fetchOpts) {
+        try {
+          const res = await fetch('/api/modules', fetchOpts);
+          if (!res.ok) {
+            return;
+          }
+          const modules = await res.json();
+          renderModules(modules);
+          if (modules.length > 0) {
+            var first = modules[0];
+            var nameEl = document.getElementById('dashboard-first-room-name');
+            var descEl = document.getElementById('dashboard-first-room-desc');
+            if (nameEl) {
+              nameEl.textContent = first.title || first.name || nameEl.textContent;
+            }
+            if (descEl && first.description) {
+              descEl.textContent = first.description;
+            }
+          }
+        } catch (e) {
+          console.error('modules fallback:', e);
+        }
+      }
+
+      function applyLearningPath(lp) {
+        const sub = document.getElementById('dashboard-greeting-subtitle');
+        if (sub && lp.message) {
+          sub.textContent = lp.message;
+        }
+        const stats = document.getElementById('dashboard-learning-stats');
+        if (stats) {
+          const pct = lp.completionPercentage ?? 0;
+          const done = lp.completedModules ?? 0;
+          const total = lp.totalModules ?? 0;
+          stats.textContent =
+            'Progress: ' + pct + '% · ' + done + ' / ' + total + ' modules completed';
+          stats.hidden = false;
+        }
+        const modules = lp.modules || [];
+        renderModules(modules);
+
+        if (modules.length > 0) {
+          const first = modules[0];
+          const nameEl = document.getElementById('dashboard-first-room-name');
+          const descEl = document.getElementById('dashboard-first-room-desc');
+          if (nameEl) {
+            nameEl.textContent = first.title || first.name || nameEl.textContent;
+          }
+          if (descEl && first.description) {
+            descEl.textContent = first.description;
+          }
+        }
+
+        const suggested = lp.suggestedNextModules || [];
+        const box = document.getElementById('dashboard-suggested-next');
+        if (box && suggested.length > 0) {
+          box.textContent = '';
+          const strong = document.createElement('strong');
+          strong.textContent = 'Suggested next';
+          box.appendChild(strong);
+          box.appendChild(
+            document.createTextNode(
+              ': ' +
+                suggested
+                  .map(function (m) {
+                    return m.title || m.name || '';
+                  })
+                  .filter(Boolean)
+                  .join(' · ')
+            )
+          );
+          box.hidden = false;
+        }
+      }
+
+      function applyCompeteSummary(s) {
+        const week = s.week;
+        const enrollment = s.enrollment;
+        const caps = s.caps;
+        const season = s.season;
+
+        const titleEl = document.getElementById('dashboard-league-title');
+        if (titleEl) {
+          if (enrollment && enrollment.bracket) {
+            titleEl.textContent = enrollment.bracket + ' · Compete';
+          } else {
+            titleEl.textContent = 'Compete this week';
+          }
+        }
+
+        const hintEl = document.getElementById('dashboard-league-hint');
+        if (hintEl && week && week.weekEndUtc) {
+          var days = daysUntilUtcInstant(week.weekEndUtc);
+          hintEl.textContent =
+            days > 0 ? days + ' day(s) left in this week' : 'This week is ending';
+        }
+
+        const tagEl = document.getElementById('dashboard-league-tagline');
+        if (tagEl && season) {
+          tagEl.textContent =
+            'Season ' +
+            (season.code || '') +
+            ' · week ' +
+            (season.weekIndex != null ? season.weekIndex : '—');
+        }
+
+        const subEl = document.getElementById('dashboard-league-sub');
+        if (subEl && caps) {
+          subEl.textContent =
+            'Weekly TP ' +
+            (caps.weeklyTpTotal != null ? caps.weeklyTpTotal : 0) +
+            ' / ' +
+            (caps.weeklyHardCap != null ? caps.weeklyHardCap : '—') +
+            ' · daily used ' +
+            (caps.dailyTpUsed != null ? caps.dailyTpUsed : 0) +
+            ' / ' +
+            (caps.dailyTpCap != null ? caps.dailyTpCap : '—');
+        }
+      }
+
+      function daysUntilUtcInstant(iso) {
+        var end = new Date(iso).getTime();
+        var now = Date.now();
+        return Math.max(0, Math.ceil((end - now) / 86400000));
+      }
+
       function renderModules(modules) {
         const moduleListContainer = document.getElementById('module-list');
-        if (moduleListContainer) {
-            modules.forEach(module => {
-                const moduleCard = document.createElement('div');
-                moduleCard.className = 'module-card';
-
-                const heading = document.createElement('h3');
-                heading.textContent = module.title || module.name || '';
-
-                moduleCard.appendChild(heading);
-                if (module.title && module.name && module.title !== module.name) {
-                    const nameLine = document.createElement('p');
-                    nameLine.className = 'module-card__name';
-                    nameLine.textContent = module.name;
-                    moduleCard.appendChild(nameLine);
-                }
-                const moduleDescription = document.createElement('p');
-                moduleDescription.textContent = module.description || '';
-                moduleCard.appendChild(moduleDescription);
-
-                moduleListContainer.appendChild(moduleCard);
-            });
+        if (!moduleListContainer) {
+          return;
         }
-    }
+        moduleListContainer.innerHTML = '';
+        modules.forEach(function (module) {
+          const moduleCard = document.createElement('div');
+          moduleCard.className = 'module-card';
+
+          const heading = document.createElement('h3');
+          heading.textContent = module.title || module.name || '';
+
+          moduleCard.appendChild(heading);
+          if (module.title && module.name && module.title !== module.name) {
+            const nameLine = document.createElement('p');
+            nameLine.className = 'module-card__name';
+            nameLine.textContent = module.name;
+            moduleCard.appendChild(nameLine);
+          }
+          const moduleDescription = document.createElement('p');
+          moduleDescription.textContent = module.description || '';
+          moduleCard.appendChild(moduleDescription);
+
+          moduleListContainer.appendChild(moduleCard);
+        });
+      }
     </script>
   </body>
 </html>
