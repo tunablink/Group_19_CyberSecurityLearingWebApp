@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -47,19 +47,21 @@
                 </div>
 
                 <div class="dashboard-greeting__content">
-                  <h2 class="dashboard-greeting__title">Hey Duy!</h2>
-                  <p class="dashboard-greeting__subtitle">
-                    You can see an overview of your learning progress here!
+                  <h2 class="dashboard-greeting__title" id="dashboard-greeting-title">
+                    Hey there!
+                  </h2>
+                  <p class="dashboard-greeting__subtitle" id="dashboard-greeting-subtitle">
+                    Loading your learning path…
                   </p>
+                  <p class="dashboard-greeting__progress" id="dashboard-greeting-progress" hidden></p>
                 </div>
               </div>
             </article>
 
             <!-- Complete first room -->
             <article class="dashboard-card dashboard-card--firstroom">
-              <h3 class="dashboard-card__title">
-                Complete your first room to unlock your dashboard and boost your
-                chances of reaching your goals!
+              <h3 class="dashboard-card__title" id="first-room-card-title">
+                Your next step on the learning path
               </h3>
 
               <div class="dashboard-room">
@@ -81,21 +83,20 @@
 
                   <div class="dashboard-room__meta">
                     <div class="dashboard-room__name-row">
-                      <p class="dashboard-room__name">Introduction</p>
-                      <span class="dashboard-badge" title="New">NEW</span>
+                      <p class="dashboard-room__name" id="first-room-name">—</p>
+                      <span class="dashboard-badge" id="first-room-badge" title="Status">…</span>
                     </div>
-                    <p class="dashboard-room__desc">
-                      Make sure you grasp the basics yourself to ensure you have
-                      the minimum foundation to participate in the course!
+                    <p class="dashboard-room__desc" id="first-room-desc">
+                      Loading module details…
                     </p>
                   </div>
 
                   <a
                     class="dashboard-btn dashboard-btn--primary"
-                    type="button"
+                    id="first-room-cta"
                     th:href="@{/learn}"
                   >
-                    Complete my first room
+                    Go to learning
                   </a>
                 </div>
 
@@ -284,11 +285,12 @@
                 <div class="dashboard-mission__row">
                   <div class="dashboard-mission__row-title">
                     <span>Complete Rooms</span>
-                    <span class="dashboard-mission__value">0 / 7</span>
+                    <span class="dashboard-mission__value" id="mission-rooms-value">0 / 0</span>
                   </div>
                   <div class="dashboard-progress">
                     <div
                       class="dashboard-progress__bar"
+                      id="mission-rooms-bar"
                       style="width: 0%"
                     ></div>
                   </div>
@@ -296,10 +298,10 @@
               </div>
             </article>
 
-            <!-- Questions answered -->
+            <!-- Path progress (API に質問数が無いためモジュール進捗を表示) -->
             <article class="dashboard-card dashboard-card--questions">
-              <h3 class="dashboard-card__title">0 Questions answered</h3>
-              <p class="dashboard-card__hint">this week</p>
+              <h3 class="dashboard-card__title" id="dashboard-path-summary">0% path progress</h3>
+              <p class="dashboard-card__hint" id="dashboard-path-hint">modules completed</p>
               <div class="dashboard-divider"></div>
             </article>
 
@@ -321,7 +323,7 @@
                     />
                   </svg>
                 </div>
-                <p class="dashboard-lock__text">
+                <p class="dashboard-lock__text" id="dashboard-stats-hint">
                   Complete the first room of your path to unlock this feature.
                 </p>
               </div>
@@ -332,59 +334,194 @@
     </main>
 
     <script>
+      function usernameFromAuthToken() {
+        const token = localStorage.getItem('auth-key');
+        if (!token) return null;
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          return payload.sub || null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function displayModuleStatus(status) {
+        if (status != null && String(status).trim() !== '') {
+          return String(status).trim();
+        }
+        return 'Not Started';
+      }
+
+      function moduleBadgeLabel(status) {
+        const label = displayModuleStatus(status);
+        const s = label.toLowerCase();
+        if (s.includes('complete')) return 'DONE';
+        if (s.includes('progress')) return 'ACTIVE';
+        if (s === 'not started') return 'Not Started';
+        return label;
+      }
+
+      function pickNextModule(modules, suggested) {
+        if (suggested && suggested.length) return suggested[0];
+        if (!modules || !modules.length) return null;
+        const notDone = modules.find(
+          (m) => m.status && !String(m.status).toLowerCase().includes('complete')
+        );
+        return notDone || modules[0];
+      }
+
+      function renderDashboard(d) {
+        const modules = d.modules || [];
+        const suggested = d.suggestedNextModules || [];
+        const pct = typeof d.completionPercentage === 'number' ? d.completionPercentage : 0;
+        const done = d.completedModules ?? 0;
+        const total = d.totalModules ?? 0;
+
+        const name = usernameFromAuthToken();
+        const greet = document.getElementById('dashboard-greeting-title');
+        if (greet) greet.textContent = name ? 'Hey ' + name + '!' : 'Hey there!';
+
+        const sub = document.getElementById('dashboard-greeting-subtitle');
+        if (sub) sub.textContent = d.message || 'Here is your learning overview.';
+
+        const progLine = document.getElementById('dashboard-greeting-progress');
+        if (progLine) {
+          progLine.hidden = total === 0;
+          progLine.textContent =
+            total === 0
+              ? ''
+              : 'Overall progress: ' + pct + '% (' + done + ' of ' + total + ' modules completed)';
+        }
+
+        const nextMod = pickNextModule(modules, suggested);
+        const firstName = document.getElementById('first-room-name');
+        const firstDesc = document.getElementById('first-room-desc');
+        const firstBadge = document.getElementById('first-room-badge');
+        const firstCta = document.getElementById('first-room-cta');
+        const firstTitle = document.getElementById('first-room-card-title');
+
+        if (nextMod) {
+          if (firstTitle)
+            firstTitle.textContent = 'Continue your path';
+          if (firstName) firstName.textContent = nextMod.name || 'Module';
+          if (firstDesc) firstDesc.textContent = nextMod.description || '';
+          if (firstBadge) {
+            firstBadge.textContent = moduleBadgeLabel(nextMod.status);
+            firstBadge.title = displayModuleStatus(nextMod.status);
+          }
+          if (firstCta && nextMod.id != null) {
+            firstCta.setAttribute('href', '/learn/' + nextMod.id);
+          }
+        } else {
+          if (firstTitle) firstTitle.textContent = 'Start your learning path';
+          if (firstName) firstName.textContent = 'No modules yet';
+          if (firstDesc)
+            firstDesc.textContent =
+              'When your administrator adds modules, they will appear here.';
+          if (firstBadge) {
+            firstBadge.textContent = '—';
+            firstBadge.title = '';
+          }
+        }
+
+        const mv = document.getElementById('mission-rooms-value');
+        const mb = document.getElementById('mission-rooms-bar');
+        if (mv) mv.textContent = total === 0 ? '0 / 0' : done + ' / ' + total;
+        if (mb) mb.style.width = (total === 0 ? 0 : pct) + '%';
+
+        const pathSum = document.getElementById('dashboard-path-summary');
+        const pathHint = document.getElementById('dashboard-path-hint');
+        if (pathSum)
+          pathSum.textContent =
+            total === 0 ? '0% path progress' : pct + '% path progress';
+        if (pathHint)
+          pathHint.textContent =
+            total === 0
+              ? 'no modules in your path yet'
+              : done + ' of ' + total + ' modules completed';
+
+        const statsHint = document.getElementById('dashboard-stats-hint');
+        if (statsHint) {
+          if (total > 0 && done > 0) {
+            statsHint.textContent =
+              'You are ' +
+              pct +
+              '% through your path. Open your profile for more detail.';
+          }
+        }
+
+        renderModules(modules);
+      }
+
+      function renderModules(modules) {
+        const moduleListContainer = document.getElementById('module-list');
+        if (!moduleListContainer) return;
+        moduleListContainer.innerHTML = '';
+        if (!modules.length) {
+          const empty = document.createElement('p');
+          empty.className = 'dashboard-modules__empty';
+          empty.textContent = 'No modules to show.';
+          moduleListContainer.appendChild(empty);
+          return;
+        }
+        const heading = document.createElement('h3');
+        heading.className = 'dashboard-modules__heading';
+        heading.textContent = 'Your modules';
+        moduleListContainer.appendChild(heading);
+
+        modules.forEach((module) => {
+          const moduleCard = document.createElement('div');
+          moduleCard.className = 'module-card';
+
+          const moduleTitle = document.createElement('h3');
+          moduleTitle.textContent = module.name;
+
+          const moduleDescription = document.createElement('p');
+          moduleDescription.textContent = module.description || '';
+
+          const moduleStatus = document.createElement('span');
+          moduleStatus.textContent =
+            'Status: ' + displayModuleStatus(module.status);
+          const st = displayModuleStatus(module.status)
+            .toLowerCase()
+            .replace(/\s+/g, '-');
+          moduleStatus.className =
+            'module-status module-status--' + (st || 'unknown');
+
+          moduleCard.appendChild(moduleTitle);
+          moduleCard.appendChild(moduleDescription);
+          moduleCard.appendChild(moduleStatus);
+          moduleListContainer.appendChild(moduleCard);
+        });
+      }
+
       document.addEventListener('DOMContentLoaded', async () => {
-        // const token = localStorage.getItem('auth-key');
-        // if (!token) {
-        //   console.error('No JWT token found in localStorage. Redirecting to login.');
-        //   window.location.href = '/login'; //
-        //   return;
-        // }
+        const token = localStorage.getItem('auth-key');
+
         try {
           const response = await fetch('/api/dashboard/learning-path', {
             method: 'GET',
             headers: {
-              // 'Authorization': 'Bearer ' + token,
-              'Content-Type': 'application/json'
-            }
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+            },
           });
 
           if (response.ok) {
             const dashboardData = await response.json();
-            console.log('Fetched Dashboard:', dashboardData);
-            renderModules(dashboardData.modules || []);
+            renderDashboard(dashboardData);
           } else {
+            const sub = document.getElementById('dashboard-greeting-subtitle');
+            if (sub) sub.textContent = 'Could not load your learning path.';
             alert('Unable to load learning path data.');
           }
         } catch (error) {
           console.error('Error during module fetch:', error);
+          const sub = document.getElementById('dashboard-greeting-subtitle');
+          if (sub) sub.textContent = 'Network error.';
           alert('Network error. Could not connect to the server.');
         }
       });
-
-      function renderModules(modules) {
-        const moduleListContainer = document.getElementById('module-list');
-        if (moduleListContainer) {
-            modules.forEach(module => {
-                const moduleCard = document.createElement('div');
-                moduleCard.className = 'module-card';
-                
-                const moduleTitle = document.createElement('h3');
-                moduleTitle.textContent = module.name;
-                
-                const moduleDescription = document.createElement('p');
-                moduleDescription.textContent = module.description;
-                
-                const moduleStatus = document.createElement('span');
-                moduleStatus.textContent = `Status: ${module.status}`;
-                moduleStatus.className = `module-status module-status--${module.status.toLowerCase().replace(/\s/g, '-')}`;
-                
-                moduleCard.appendChild(moduleTitle);
-                moduleCard.appendChild(moduleDescription);
-                moduleCard.appendChild(moduleStatus);
-                moduleListContainer.appendChild(moduleCard);
-            });
-        }
-    }
     </script>
   </body>
 </html>
