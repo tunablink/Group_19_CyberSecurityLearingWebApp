@@ -11,6 +11,9 @@ public class Module {
     private Long id;
 
     @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
     private String name;
 
     @Column(length = 1024)
@@ -20,7 +23,8 @@ public class Module {
     public Module() {
     }
 
-    public Module(String name, String description) {
+    public Module(String title, String name, String description) {
+        this.title = title;
         this.name = name;
         this.description = description;
     }
@@ -32,6 +36,14 @@ public class Module {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getName() {
