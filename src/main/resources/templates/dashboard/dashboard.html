@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -340,7 +340,7 @@
         //   return;
         // }
         try {
-          const response = await fetch('/api/dashboard/learning-path', {
+          const response = await fetch('/api/modules', {
             method: 'GET',
             headers: {
               // 'Authorization': 'Bearer ' + token,
@@ -349,11 +349,9 @@
           });
 
           if (response.ok) {
-            const dashboardData = await response.json();
-            console.log('Fetched Dashboard:', dashboardData);
-            renderModules(dashboardData.modules || []);
-          } else {
-            alert('Unable to load learning path data.');
+            const modules = await response.json();
+            console.log('Fetched Modules:', modules);
+            renderModules(modules);
           }
         } catch (error) {
           console.error('Error during module fetch:', error);
@@ -367,20 +365,21 @@
             modules.forEach(module => {
                 const moduleCard = document.createElement('div');
                 moduleCard.className = 'module-card';
-                
-                const moduleTitle = document.createElement('h3');
-                moduleTitle.textContent = module.name;
-                
+
+                const heading = document.createElement('h3');
+                heading.textContent = module.title || module.name || '';
+
+                moduleCard.appendChild(heading);
+                if (module.title && module.name && module.title !== module.name) {
+                    const nameLine = document.createElement('p');
+                    nameLine.className = 'module-card__name';
+                    nameLine.textContent = module.name;
+                    moduleCard.appendChild(nameLine);
+                }
                 const moduleDescription = document.createElement('p');
-                moduleDescription.textContent = module.description;
-                
-                const moduleStatus = document.createElement('span');
-                moduleStatus.textContent = `Status: ${module.status}`;
-                moduleStatus.className = `module-status module-status--${module.status.toLowerCase().replace(/\s/g, '-')}`;
-                
-                moduleCard.appendChild(moduleTitle);
+                moduleDescription.textContent = module.description || '';
                 moduleCard.appendChild(moduleDescription);
-                moduleCard.appendChild(moduleStatus);
+
                 moduleListContainer.appendChild(moduleCard);
             });
         }
@@ -388,4 +387,3 @@
     </script>
   </body>
 </html>
-
