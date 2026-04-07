@@ -47,7 +47,16 @@
                 </div>
 
                 <div class="dashboard-greeting__content">
-                  <h2 class="dashboard-greeting__title">Hey Duy!</h2>
+                  <h2
+                    class="dashboard-greeting__title"
+                    th:if="${user}"
+                    th:text="|Hey ${user.username}!|"
+                  >
+                    Hey!
+                  </h2>
+                  <h2 class="dashboard-greeting__title" th:unless="${user}">
+                    Hey there!
+                  </h2>
                   <p class="dashboard-greeting__subtitle">
                     You can see an overview of your learning progress here!
                   </p>
