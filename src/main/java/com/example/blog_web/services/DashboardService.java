@@ -62,7 +62,6 @@ public class DashboardService {
             return false;
         }
 
-        // Support both legacy USER role and explicit LEARNER role.
-        return roles.contains("USER") || roles.contains("LEARNER");
+        return roles.contains("USER") || roles.contains("LEARNER") || roles.contains("ADMIN");
     }
 }
