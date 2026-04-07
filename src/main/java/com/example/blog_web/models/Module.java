@@ -1,16 +1,28 @@
 package com.example.blog_web.models;
 
-public class Module {
-    private Long id;
-    private String name;
-    private String description;
-    private String status; // Example : "Completed", "In Progress", "Not Started"
+import jakarta.persistence.*;
 
-    public Module(Long id, String name, String description, String status) {
-        this.id = id;
+@Entity
+@Table(name = "modules")
+public class Module {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(length = 1024)
+    private String description;
+
+    // JPA requires a no-arg constructor
+    public Module() {
+    }
+
+    public Module(String name, String description) {
         this.name = name;
         this.description = description;
-        this.status = status;
     }
 
     // Getters and Setters
@@ -36,13 +48,5 @@ public class Module {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }
