@@ -8,6 +8,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/**
+ * Triển khai tùy chỉnh cho interface UserDetails của Spring Security.
+ * <p>
+ * Lớp này chuyển đổi User entity của dự án thành đối tượng mà Spring Security
+ * yêu cầu để thực hiện quá trình Authentication và Authorization.
+ * </p>
+ */
 public class MyUserDetails implements UserDetails {
     private final User user;
 

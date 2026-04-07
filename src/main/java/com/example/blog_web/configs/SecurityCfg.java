@@ -11,6 +11,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * Lớp cấu hình bảo mật chính của ứng dụng Spring Boot.
+ * <p>
+ * Lớp này thiết lập Spring Security filter chain, định nghĩa các quy tắc kiểm soát quyền truy cập
+ * theo URL, tự động vô hiệu hóa CSRF cho API, cấu hình custom JWT filter và thiết lập
+ * hành vi mặc định khi đăng nhập / đăng xuất.
+ * </p>
+ */
 @Configuration
 public class SecurityCfg {
 

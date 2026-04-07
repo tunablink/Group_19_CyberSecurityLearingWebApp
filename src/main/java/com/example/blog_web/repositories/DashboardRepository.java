@@ -5,6 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Layer truy cập dữ liệu để lấy hành trình học tập.
+ * <p>
+ * Repository này lấy thông tin lộ trình module (tạm thời qua bộ nhớ tạm hoặc cơ sở dữ liệu) 
+ * để cấp dữ liệu hiển thị cho trang Dashboard.
+ * </p>
+ */
 @Repository
 public class DashboardRepository {
     private final ModuleRepository moduleRepository;

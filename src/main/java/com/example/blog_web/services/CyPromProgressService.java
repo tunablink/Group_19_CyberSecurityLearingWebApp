@@ -9,6 +9,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Service theo dõi và tính toán tiến trình học tập của người dùng.
+ * <p>
+ * Lưu trữ điểm số các bài quiz và danh sách các module đã hoàn thành (tạm thời in-memory).
+ * Dùng để cấp dữ liệu cho Dashboard báo cáo tiến độ.
+ * </p>
+ */
 @Service
 public class CyPromProgressService {
     private final Map<String, List<Integer>> quizScoresByUser = new ConcurrentHashMap<>();

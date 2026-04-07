@@ -13,6 +13,13 @@ import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
+/**
+ * Service cung cấp dữ liệu cho hiển thị Dashboard thông minh.
+ * <p>
+ * Tính toán tỷ lệ hoàn thành, lấy tiến trình học tập, và gợi ý các lộ trình
+ * tiếp theo dựa vào số lượng học phần chưa được hoàn tất.
+ * </p>
+ */
 @Service
 public class DashboardService {
     private final DashboardRepository dashboardRepository;

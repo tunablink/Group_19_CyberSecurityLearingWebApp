@@ -4,6 +4,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+/**
+ * Utility controller trình diễn các UI components dùng chung toàn cục.
+ * <p>
+ * Cung cấp trang tĩnh báo cáo hoặc trang động nhằm trưng bày tập hợp
+ * các phần tử UI chuẩn (như nút, thông báo alert) để tiện tham khảo khi dev frontend.
+ * </p>
+ */
 @Controller
 public class UiController {
 

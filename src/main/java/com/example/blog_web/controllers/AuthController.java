@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,6 +33,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.Map;
 
+/**
+ * Controller chịu trách nhiệm xử lý xác thực (Authentication) và đăng ký người dùng.
+ * <p>
+ * Phơi bày các endpoint để xử lý form đăng nhập, cấp phát JWT token khi đăng nhập thành công,
+ * và tạo tài khoản người dùng mới đồng thời thực hiện các bước kiểm tra xác thực dữ liệu (validation).
+ * </p>
+ */
 @Controller
 public class AuthController {
     private final UserRepository userRepository;
@@ -86,7 +94,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid UserDto userDto,
+    public String handleRegister(@Valid @ModelAttribute("user") UserDto userDto,
                                  BindingResult result,
                                  Model model) {
         if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {

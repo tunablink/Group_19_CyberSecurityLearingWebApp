@@ -13,6 +13,13 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
+/**
+ * Lớp tiện ích cung cấp chức năng mã hóa và giải mã JSON Web Token.
+ * <p>
+ * Đảm nhiệm việc tạo token dựa trên thông tin Authentication, đồng thời parse
+ * và validate tính toàn vẹn của chuỗi token được gửi kèm request từ client.
+ * </p>
+ */
 @Component
 public class JwtTokenProvider {
 

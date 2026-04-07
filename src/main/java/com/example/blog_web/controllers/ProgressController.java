@@ -12,6 +12,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+/**
+ * REST controller chuyên thao tác với tiến độ học tập.
+ * <p>
+ * Cho phép client đã chứng thực (đăng nhập) lấy các phân tích thời gian thực
+ * về số bài quiz đã làm, điểm trung bình và phần trăm hoàn thành.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/progress")
 public class ProgressController {

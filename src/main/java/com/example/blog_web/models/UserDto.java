@@ -4,6 +4,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object (DTO) dùng trong quy trình đăng ký tài khoản.
+ * <p>
+ * Gói gọn dữ liệu gửi từ form đăng ký và áp dụng các rule validation bằng JSR 380 
+ * để bắt buộc định dạng username và độ mạnh mật khẩu chuẩn.
+ * </p>
+ */
 public class UserDto {
     @NotBlank(message = "Username khÃ´ng Ä‘Æ°á»£c Ä‘á»ƒ trá»‘ng")
     @Size(min = 4, max = 50, message = "Username pháº£i tá»« 4-50 kÃ½ tá»±")

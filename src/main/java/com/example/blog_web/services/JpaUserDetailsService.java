@@ -7,6 +7,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service hỗ trợ xác thực người dùng dựa trên JPA.
+ * <p>
+ * Spring Security sẽ gọi Service này trong tiến trình đăng nhập để load thông tin UserDetails
+ * từ cơ sở dữ liệu qua UserRepository.
+ * </p>
+ */
 @Service
 public class JpaUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;

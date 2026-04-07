@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
+/**
+ * Service mô phỏng logic chấm điểm bài kiểm tra cuối học phần (Quiz).
+ * <p>
+ * Chứa thuật toán so khớp câu hỏi gửi lên với kết quả đúng (được cấu hình cứng tạm thời)
+ * để tính thành điểm tổng và lưu tiến trình.
+ * </p>
+ */
 @Service
 public class QuizService {
     private static final int PASSING_SCORE = 70;

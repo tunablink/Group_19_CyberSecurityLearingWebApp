@@ -7,6 +7,13 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 
+/**
+ * Lớp dịch vụ xử lý JSON Web Tokens (JWT).
+ * <p>
+ * Cung cấp các phương thức để tạo JWT token mới cho người dùng đã đăng nhập
+ * và trích xuất thông tin (ví dụ: username) từ các token hiện có.
+ * </p>
+ */
 @Service
 public class JwtService {
 

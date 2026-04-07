@@ -9,6 +9,13 @@ import org.springframework.ui.Model;
 
 import java.security.Principal;
 
+/**
+ * Controller quản lý hồ sơ người dùng.
+ * <p>
+ * Quản lý trang "Member Home", cung cấp các chi tiết và dữ liệu cá nhân của
+ * người dùng (đã xác thực) đổ vào giao diện hiển thị.
+ * </p>
+ */
 @Controller
 public class MemberController {
 

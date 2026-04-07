@@ -2,6 +2,12 @@ package com.example.blog_web.models;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object (DTO) tổng hợp tiến độ học tập của người dùng.
+ * <p>
+ * Thống kê số lần làm quiz, điểm số trung bình và tỉ lệ phần trăm hoàn thành.
+ * </p>
+ */
 public class ProgressSummaryDto {
     private int completionPercentage;
     private int totalQuizAttempts;

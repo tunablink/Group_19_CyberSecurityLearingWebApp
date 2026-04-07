@@ -2,6 +2,13 @@ package com.example.blog_web.models;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object (DTO) dùng để trả về thông tin dashboard cho client.
+ * <p>
+ * Lưu trữ % tiến độ của học viên, danh sách toàn bộ các module và đề xuất
+ * module tiếp theo hiển thị trên giao diện người học (Learner Dashboard).
+ * </p>
+ */
 public class DashboardResponseDto {
     private int completionPercentage;
     private int completedModules;

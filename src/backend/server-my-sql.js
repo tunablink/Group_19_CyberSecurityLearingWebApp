@@ -9,7 +9,7 @@ app.use(cors());
 const pool = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
-  password: process.env.DB_PASSWORD || "123456Abc@",
+  password: process.env.DB_PASSWORD || "Tunablink4305@",
   database: process.env.DB_NAME || "blogweb",
   port: 3306,
 });

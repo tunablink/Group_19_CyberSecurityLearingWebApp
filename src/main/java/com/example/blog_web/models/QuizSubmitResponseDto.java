@@ -1,5 +1,12 @@
 package com.example.blog_web.models;
 
+/**
+ * Data Transfer Object (DTO) trả về kết quả bài quiz.
+ * <p>
+ * Mang theo điểm số tính toán được, trạng thái đánh giá qua/trượt (pass/fail)
+ * và thông điệp hướng dẫn bước tiếp theo cho người dùng.
+ * </p>
+ */
 public class QuizSubmitResponseDto {
     private int score;
     private boolean passed;

@@ -9,6 +9,12 @@ import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+/**
+ * Service đảm nhiệm việc lấy dữ liệu của các bài học (Module).
+ * <p>
+ * Gọi trực tiếp xuống tầng Repository để truy vấn danh sách toàn bộ module hoặc một module cụ thể.
+ * </p>
+ */
 @Service
 public class ModuleService {
     private final ModuleRepository moduleRepository;

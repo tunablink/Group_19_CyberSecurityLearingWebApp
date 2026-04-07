@@ -6,6 +6,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Repository phục vụ việc tương tác với các học phần (Module).
+ * <p>
+ * Hiện tại sử dụng danh sách trong bộ nhớ (in-memory) để đảm bảo không lỗi trước khi 
+ * ứng dụng chuyển sang MySQL vĩnh viễn. Trong tương lai sẽ chuyển qua JpaRepository.
+ * </p>
+ */
 @Repository
 public class ModuleRepository {
 

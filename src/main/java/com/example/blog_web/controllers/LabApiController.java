@@ -15,6 +15,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+/**
+ * REST API Controller thực thi tiến trình đánh giá Security Lab.
+ * <p>
+ * Cung cấp các endpoint cho phép người dùng submit các kỹ thuật thực nghiệm (ví dụ: exploit),
+ * tự động kích hoạt bộ máy validation ngầm để chấm điểm kỹ thuật đó (Đúng/Sai).
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/labs")
 public class LabApiController {

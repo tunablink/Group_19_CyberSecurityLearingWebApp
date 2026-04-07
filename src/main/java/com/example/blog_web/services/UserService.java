@@ -9,6 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * Service quản lý các yêu cầu xử lý nghiệp vụ đối với thực thể User.
+ * <p>
+ * Xử lý việc kiểm tra Username đã tồn tại chưa, mã hoá mật khẩu và lưu người dùng mới 
+ * xuống CSDL khi đăng ký.
+ * </p>
+ */
 @Service
 public class UserService {
 

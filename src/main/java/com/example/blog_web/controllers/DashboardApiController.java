@@ -11,6 +11,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+/**
+ * REST controller được thiết kế để truy xuất dữ liệu dashboard thông qua API.
+ * <p>
+ * Cung cấp cho những người dùng đã xác thực quyền truy cập vào lộ trình học tập logic
+ * và các số liệu thống kê tiến độ cá nhân của họ.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/dashboard")
 public class DashboardApiController {

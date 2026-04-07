@@ -8,6 +8,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
+/**
+ * Lớp Factory sinh ra Validator phù hợp dựa trên loại Lab bài học.
+ * <p>
+ * Triển khai Factory Pattern để trả về đúng thuật toán xác thực (Exploit hoặc Defense)
+ * dựa vào tham số đầu vào, giúp dễ dàng mở rộng nhiều loại bài Lab khác nhau.
+ * </p>
+ */
 @Component
 public class LabValidatorFactory {
     private final ExploitStrategy exploitStrategy;

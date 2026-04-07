@@ -14,6 +14,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
+/**
+ * REST Endpoint chịu trách nhiệm xử lý trả lời câu hỏi Quiz và chấm điểm.
+ * <p>
+ * Nhận đáp án nộp từ giao diện học viên, gọi dịch vụ phía backend để tính toán điểm số,
+ * ghi lại kết quả và phản hồi lập tức trạng thái pass/fail.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api/quizzes")
 public class QuizController {

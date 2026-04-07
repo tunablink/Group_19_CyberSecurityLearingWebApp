@@ -1,5 +1,11 @@
 package com.example.blog_web.models;
 
+/**
+ * Entity đại diện cho một học phần (Module) trong hệ thống.
+ * <p>
+ * Một module chứa chủ đề, mô tả và trạng thái tiến độ hiện tại của người dùng.
+ * </p>
+ */
 public class Module {
     private Long id;
     private String name;

@@ -15,6 +15,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * Filter đánh chặn các request HTTP đến để trích xuất và xác thực token JWT.
+ * <p>
+ * Filter này chạy một lần cho mỗi request. Nó kiểm tra token 'Bearer' trong
+ * header 'Authorization'. Nếu quét thấy token hợp lệ, nó sẽ lưu thông tin xác thực
+ * của user vào context của Spring Security để cho phép truy cập các API bảo mật.
+ * </p>
+ */
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 

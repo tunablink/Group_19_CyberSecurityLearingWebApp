@@ -156,7 +156,7 @@ body {
 .login-btn {
   height: 38px;
   padding: 0 18px;
-  border-radius: 6px;
+  border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   line-height: 38px;
@@ -165,6 +165,7 @@ body {
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .login-btn--outline {
@@ -389,6 +390,7 @@ body {
 
   font-weight: 900;
   font-size: 13px;
+  border-radius: 999px;
 }
 
 .banner_index__btn:hover {
@@ -472,7 +474,7 @@ body {
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 
 :root {
-  --owasp-bg: #f3f3f3;
+  --owasp-bg: #f8fafc;
   --owasp-surface: #ffffff;
   --owasp-text: #2f2f2f;
   --owasp-muted: #7a7a7a;
@@ -501,8 +503,9 @@ body.page {
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  background: var(--owasp-bg);
+  background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 50%, #f6f9fc 100%);
   color: var(--owasp-text);
+  min-height: 100vh;
 }
 
 img {
@@ -543,30 +546,37 @@ img {
 .owasp_feature_card {
   min-height: 278px;
   background: var(--owasp-surface);
-  border-radius: var(--owasp-radius);
-  box-shadow: var(--owasp-shadow);
+  border-radius: 18px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
   border: 1px solid #efefef;
   padding: 36px 26px 28px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.owasp_feature_card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
 }
 
 .owasp_feature_card__icon {
-  width: 62px;
-  height: 62px;
-  border: 1.5px solid var(--owasp-green);
+  width: 76px;
+  height: 76px;
+  border: 2px solid var(--owasp-green);
   border-radius: 999px;
   display: grid;
   place-items: center;
   margin-bottom: 20px;
   background: #fff;
+  box-shadow: 0 4px 12px rgba(88, 199, 106, 0.15);
 }
 
 .owasp_feature_card__icon img {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -591,16 +601,21 @@ img {
 
 .owasp_feature_card__link {
   margin-top: auto;
-  padding-top: 18px;
+  padding: 10px 24px;
   font-size: 13px;
   font-weight: 800;
-  color: var(--owasp-green);
+  color: #fff;
+  background: var(--owasp-green);
   text-decoration: none;
   text-transform: uppercase;
+  border-radius: 999px;
+  transition: all 0.2s ease;
 }
 
 .owasp_feature_card__link:hover {
-  color: var(--owasp-green-dark);
+  background: var(--owasp-green-dark);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 /* ===================== DETAIL SECTION ===================== */
@@ -661,10 +676,10 @@ img {
 
 .owasp_detail_section__item {
   position: relative;
-  padding-left: 26px;
-  font-size: 15px;
+  padding-left: 32px;
+  font-size: 16px;
   line-height: 1.6;
-  color: #757575;
+  color: #555555;
   font-weight: 700;
 }
 
@@ -674,8 +689,9 @@ img {
   left: 0;
   top: 0;
   color: var(--owasp-green);
-  font-size: 14px;
-  line-height: 1.4;
+  font-size: 20px;
+  line-height: 1.35;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
 .owasp_detail_section__btn {
@@ -692,7 +708,7 @@ img {
   font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
-  border-radius: 2px;
+  border-radius: 999px;
 }
 
 .owasp_detail_section__btn:hover {
@@ -707,9 +723,13 @@ img {
 }
 
 .owasp_detail_section__image img {
-  max-width: 100%;
-  max-height: 400px;
-  object-fit: contain;
+  width: 100%;
+  max-width: 480px;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+  border: 4px solid #fff;
 }
 
 /* ===================== ORIGINAL OWASP BLOCKS ===================== */
@@ -981,8 +1001,8 @@ body {
 
 .login-btn {
   height: 38px;
-  padding: 0 18px;
-  border-radius: 6px;
+  padding: 0 22px;
+  border-radius: 999px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -992,6 +1012,7 @@ body {
   font-weight: 700;
   white-space: nowrap !important; /* FIX wrap */
   flex: 0 0 auto;
+  transition: all 0.2s ease;
 }
 
 .login-btn--outline {

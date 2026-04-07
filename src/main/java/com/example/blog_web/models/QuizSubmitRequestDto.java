@@ -4,6 +4,12 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Map;
 
+/**
+ * Data Transfer Object (DTO) dùng để nhận phản hồi quiz của học viên.
+ * <p>
+ * Chứa mã ID của module bài kiểm tra và danh sách câu trả lời của user.
+ * </p>
+ */
 public class QuizSubmitRequestDto {
     @NotNull(message = "Module id is required")
     private Long moduleId;

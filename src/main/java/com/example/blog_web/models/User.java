@@ -2,6 +2,13 @@ package com.example.blog_web.models;
 
 import jakarta.persistence.*;
 
+/**
+ * JPA Entity biểu diễn một người dùng của hệ thống.
+ * <p>
+ * Ánh xạ với bảng "users" dưới database, lưu giữ thông tin cốt lõi
+ * như username, mật khẩu mã hoá, quyền (roles) và địa chỉ.
+ * </p>
+ */
 @Entity
 @Table(name = "users")
 public class User {

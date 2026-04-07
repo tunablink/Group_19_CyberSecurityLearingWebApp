@@ -9,6 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST controller dùng để lấy các học phần (module).
+ * <p>
+ * Cung cấp các endpoint (chỉ đọc) để trả về danh sách khóa học hiện có và
+ * metadata của chúng để client tải động.
+ * </p>
+ */
 @RestController
 @RequestMapping("/api")
 public class ModuleController {

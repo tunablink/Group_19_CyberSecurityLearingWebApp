@@ -1,5 +1,11 @@
 package com.example.blog_web.models;
 
+/**
+ * Data Transfer Object (DTO) lưu trữ thông tin đăng nhập.
+ * <p>
+ * Nắm bắt username và password mà client truyền lên lúc tạo request xác thực.
+ * </p>
+ */
 public class LoginRequest {
     private String username;
     private String password;
