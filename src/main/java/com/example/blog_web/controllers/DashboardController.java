@@ -1,19 +1,29 @@
 package com.example.blog_web.controllers;
 
+import com.example.blog_web.models.User;
+import com.example.blog_web.services.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-/**
- * Controller trả về giao diện Dashboard chính cho người dùng.
- * <p>
- * Cung cấp các route web để điều hướng người dùng (đã đăng nhập) đến trung tâm học tập (learning hub).
- * </p>
- */
+import java.security.Principal;
+
 @Controller
 public class DashboardController {
 
+    private final UserService userService;
+
+    public DashboardController(UserService userService) {
+        this.userService = userService;
+    }
+
     @GetMapping("/dashboard")
-    public String dashboard() {
+    public String dashboard(Model model, Principal principal) {
+        if (principal != null) {
+            String username = principal.getName();
+            User user = userService.findByUsername(username);
+            model.addAttribute("user", user);
+        }
         return "dashboard/dashboard";
     }
 }

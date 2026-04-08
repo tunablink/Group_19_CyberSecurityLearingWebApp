@@ -47,21 +47,36 @@
                 </div>
 
                 <div class="dashboard-greeting__content">
-                  <h2 class="dashboard-greeting__title" id="dashboard-greeting-title">
+                  <h2
+                    class="dashboard-greeting__title"
+                    th:if="${user}"
+                    th:text="|Hey ${user.username}!|"
+                  >
+                    Hey!
+                  </h2>
+                  <h2 class="dashboard-greeting__title" th:unless="${user}">
                     Hey there!
                   </h2>
-                  <p class="dashboard-greeting__subtitle" id="dashboard-greeting-subtitle">
-                    Loading your learning path…
+                  <p
+                    class="dashboard-greeting__subtitle"
+                    id="dashboard-greeting-subtitle"
+                  >
+                    You can see an overview of your learning progress here!
                   </p>
-                  <p class="dashboard-greeting__progress" id="dashboard-greeting-progress" hidden></p>
+                  <p
+                    class="dashboard-greeting__hint"
+                    id="dashboard-learning-stats"
+                    hidden
+                  ></p>
                 </div>
               </div>
             </article>
 
             <!-- Complete first room -->
             <article class="dashboard-card dashboard-card--firstroom">
-              <h3 class="dashboard-card__title" id="first-room-card-title">
-                Your next step on the learning path
+              <h3 class="dashboard-card__title">
+                Complete your first room to unlock your dashboard and boost your
+                chances of reaching your goals!
               </h3>
 
               <div class="dashboard-room">
@@ -83,20 +98,23 @@
 
                   <div class="dashboard-room__meta">
                     <div class="dashboard-room__name-row">
-                      <p class="dashboard-room__name" id="first-room-name">—</p>
-                      <span class="dashboard-badge" id="first-room-badge" title="Status">…</span>
+                      <p class="dashboard-room__name" id="dashboard-first-room-name">
+                        Introduction
+                      </p>
+                      <span class="dashboard-badge" title="New">NEW</span>
                     </div>
-                    <p class="dashboard-room__desc" id="first-room-desc">
-                      Loading module details…
+                    <p class="dashboard-room__desc" id="dashboard-first-room-desc">
+                      Make sure you grasp the basics yourself to ensure you have
+                      the minimum foundation to participate in the course!
                     </p>
                   </div>
 
                   <a
                     class="dashboard-btn dashboard-btn--primary"
-                    id="first-room-cta"
+                    type="button"
                     th:href="@{/learn}"
                   >
-                    Go to learning
+                    Complete my first room
                   </a>
                 </div>
 
@@ -162,12 +180,16 @@
               </div>
             </article>
 
-            <!-- Bronze League -->
+            <!-- Compete week / bracket (from /api/compete/me/summary) -->
             <article class="dashboard-card dashboard-card--league">
               <div class="dashboard-league__header">
                 <div>
-                  <h3 class="dashboard-card__title">Bronze League</h3>
-                  <p class="dashboard-card__hint">5 days left to join</p>
+                  <h3 class="dashboard-card__title" id="dashboard-league-title">
+                    Compete
+                  </h3>
+                  <p class="dashboard-card__hint" id="dashboard-league-hint">
+                    Loading…
+                  </p>
                 </div>
               </div>
 
@@ -177,22 +199,23 @@
                   <div class="dashboard-league__badge"></div>
                 </div>
 
-                <p class="dashboard-league__title">
-                  Solve two rooms and grab your Bronze spot!
+                <p class="dashboard-league__title" id="dashboard-league-tagline">
+                  Weekly tournament &amp; leaderboard.
                 </p>
-                <p class="dashboard-league__subtitle">
-                  Top players are already inside.
+                <p class="dashboard-league__subtitle" id="dashboard-league-sub">
+                  Season progress and caps update from your account.
                 </p>
 
-                <button
+                <a
                   class="dashboard-btn dashboard-btn--ghost"
-                  type="button"
+                  th:href="@{/compete/leaderboard}"
                 >
                   View league
-                </button>
+                </a>
               </div>
             </article>
 
+            <div id="dashboard-suggested-next" class="dashboard-suggested" hidden></div>
             <div id="module-list" class="dashboard-modules">
             </div>
           </section>
@@ -285,12 +308,11 @@
                 <div class="dashboard-mission__row">
                   <div class="dashboard-mission__row-title">
                     <span>Complete Rooms</span>
-                    <span class="dashboard-mission__value" id="mission-rooms-value">0 / 0</span>
+                    <span class="dashboard-mission__value">0 / 7</span>
                   </div>
                   <div class="dashboard-progress">
                     <div
                       class="dashboard-progress__bar"
-                      id="mission-rooms-bar"
                       style="width: 0%"
                     ></div>
                   </div>
@@ -298,10 +320,10 @@
               </div>
             </article>
 
-            <!-- Path progress (API に質問数が無いためモジュール進捗を表示) -->
+            <!-- Questions answered -->
             <article class="dashboard-card dashboard-card--questions">
-              <h3 class="dashboard-card__title" id="dashboard-path-summary">0% path progress</h3>
-              <p class="dashboard-card__hint" id="dashboard-path-hint">modules completed</p>
+              <h3 class="dashboard-card__title">0 Questions answered</h3>
+              <p class="dashboard-card__hint">this week</p>
               <div class="dashboard-divider"></div>
             </article>
 
@@ -323,7 +345,7 @@
                     />
                   </svg>
                 </div>
-                <p class="dashboard-lock__text" id="dashboard-stats-hint">
+                <p class="dashboard-lock__text">
                   Complete the first room of your path to unlock this feature.
                 </p>
               </div>
@@ -334,195 +356,196 @@
     </main>
 
     <script>
-      function usernameFromAuthToken() {
-        const token = localStorage.getItem('auth-key');
-        if (!token) return null;
+      document.addEventListener('DOMContentLoaded', async () => {
+        const fetchOpts = { credentials: 'same-origin' };
+
         try {
-          const payload = JSON.parse(atob(token.split('.')[1]));
-          return payload.sub || null;
+          const lpRes = await fetch('/api/dashboard/learning-path', fetchOpts);
+          if (lpRes.ok) {
+            const lp = await lpRes.json();
+            applyLearningPath(lp);
+          } else {
+            // learning-path が 403 等のときは従来どおり /api/modules で一覧だけ出す
+            await loadModulesFallback(fetchOpts);
+          }
+        } catch (error) {
+          console.error('learning-path:', error);
+          await loadModulesFallback(fetchOpts);
+        }
+
+        try {
+          const cRes = await fetch('/api/compete/me/summary', fetchOpts);
+          if (cRes.ok) {
+            const summary = await cRes.json();
+            applyCompeteSummary(summary);
+          } else {
+            const hint = document.getElementById('dashboard-league-hint');
+            if (hint) {
+              hint.textContent = 'Compete data unavailable.';
+            }
+          }
+        } catch (error) {
+          console.error('compete summary:', error);
+          const hint = document.getElementById('dashboard-league-hint');
+          if (hint) {
+            hint.textContent = 'Could not load compete summary.';
+          }
+        }
+      });
+
+      async function loadModulesFallback(fetchOpts) {
+        try {
+          const res = await fetch('/api/modules', fetchOpts);
+          if (!res.ok) {
+            return;
+          }
+          const modules = await res.json();
+          renderModules(modules);
+          if (modules.length > 0) {
+            var first = modules[0];
+            var nameEl = document.getElementById('dashboard-first-room-name');
+            var descEl = document.getElementById('dashboard-first-room-desc');
+            if (nameEl) {
+              nameEl.textContent = first.title || first.name || nameEl.textContent;
+            }
+            if (descEl && first.description) {
+              descEl.textContent = first.description;
+            }
+          }
         } catch (e) {
-          return null;
+          console.error('modules fallback:', e);
         }
       }
 
-      function displayModuleStatus(status) {
-        if (status != null && String(status).trim() !== '') {
-          return String(status).trim();
-        }
-        return 'Not Started';
-      }
-
-      function moduleBadgeLabel(status) {
-        const label = displayModuleStatus(status);
-        const s = label.toLowerCase();
-        if (s.includes('complete')) return 'DONE';
-        if (s.includes('progress')) return 'ACTIVE';
-        if (s === 'not started') return 'Not Started';
-        return label;
-      }
-
-      function pickNextModule(modules, suggested) {
-        if (suggested && suggested.length) return suggested[0];
-        if (!modules || !modules.length) return null;
-        const notDone = modules.find(
-          (m) => m.status && !String(m.status).toLowerCase().includes('complete')
-        );
-        return notDone || modules[0];
-      }
-
-      function renderDashboard(d) {
-        const modules = d.modules || [];
-        const suggested = d.suggestedNextModules || [];
-        const pct = typeof d.completionPercentage === 'number' ? d.completionPercentage : 0;
-        const done = d.completedModules ?? 0;
-        const total = d.totalModules ?? 0;
-
-        const name = usernameFromAuthToken();
-        const greet = document.getElementById('dashboard-greeting-title');
-        if (greet) greet.textContent = name ? 'Hey ' + name + '!' : 'Hey there!';
-
+      function applyLearningPath(lp) {
         const sub = document.getElementById('dashboard-greeting-subtitle');
-        if (sub) sub.textContent = d.message || 'Here is your learning overview.';
-
-        const progLine = document.getElementById('dashboard-greeting-progress');
-        if (progLine) {
-          progLine.hidden = total === 0;
-          progLine.textContent =
-            total === 0
-              ? ''
-              : 'Overall progress: ' + pct + '% (' + done + ' of ' + total + ' modules completed)';
+        if (sub && lp.message) {
+          sub.textContent = lp.message;
         }
-
-        const nextMod = pickNextModule(modules, suggested);
-        const firstName = document.getElementById('first-room-name');
-        const firstDesc = document.getElementById('first-room-desc');
-        const firstBadge = document.getElementById('first-room-badge');
-        const firstCta = document.getElementById('first-room-cta');
-        const firstTitle = document.getElementById('first-room-card-title');
-
-        if (nextMod) {
-          if (firstTitle)
-            firstTitle.textContent = 'Continue your path';
-          if (firstName) firstName.textContent = nextMod.name || 'Module';
-          if (firstDesc) firstDesc.textContent = nextMod.description || '';
-          if (firstBadge) {
-            firstBadge.textContent = moduleBadgeLabel(nextMod.status);
-            firstBadge.title = displayModuleStatus(nextMod.status);
-          }
-          if (firstCta && nextMod.id != null) {
-            firstCta.setAttribute('href', '/learn/' + nextMod.id);
-          }
-        } else {
-          if (firstTitle) firstTitle.textContent = 'Start your learning path';
-          if (firstName) firstName.textContent = 'No modules yet';
-          if (firstDesc)
-            firstDesc.textContent =
-              'When your administrator adds modules, they will appear here.';
-          if (firstBadge) {
-            firstBadge.textContent = '—';
-            firstBadge.title = '';
-          }
+        const stats = document.getElementById('dashboard-learning-stats');
+        if (stats) {
+          const pct = lp.completionPercentage ?? 0;
+          const done = lp.completedModules ?? 0;
+          const total = lp.totalModules ?? 0;
+          stats.textContent =
+            'Progress: ' + pct + '% · ' + done + ' / ' + total + ' modules completed';
+          stats.hidden = false;
         }
-
-        const mv = document.getElementById('mission-rooms-value');
-        const mb = document.getElementById('mission-rooms-bar');
-        if (mv) mv.textContent = total === 0 ? '0 / 0' : done + ' / ' + total;
-        if (mb) mb.style.width = (total === 0 ? 0 : pct) + '%';
-
-        const pathSum = document.getElementById('dashboard-path-summary');
-        const pathHint = document.getElementById('dashboard-path-hint');
-        if (pathSum)
-          pathSum.textContent =
-            total === 0 ? '0% path progress' : pct + '% path progress';
-        if (pathHint)
-          pathHint.textContent =
-            total === 0
-              ? 'no modules in your path yet'
-              : done + ' of ' + total + ' modules completed';
-
-        const statsHint = document.getElementById('dashboard-stats-hint');
-        if (statsHint) {
-          if (total > 0 && done > 0) {
-            statsHint.textContent =
-              'You are ' +
-              pct +
-              '% through your path. Open your profile for more detail.';
-          }
-        }
-
+        const modules = lp.modules || [];
         renderModules(modules);
+
+        if (modules.length > 0) {
+          const first = modules[0];
+          const nameEl = document.getElementById('dashboard-first-room-name');
+          const descEl = document.getElementById('dashboard-first-room-desc');
+          if (nameEl) {
+            nameEl.textContent = first.title || first.name || nameEl.textContent;
+          }
+          if (descEl && first.description) {
+            descEl.textContent = first.description;
+          }
+        }
+
+        const suggested = lp.suggestedNextModules || [];
+        const box = document.getElementById('dashboard-suggested-next');
+        if (box && suggested.length > 0) {
+          box.textContent = '';
+          const strong = document.createElement('strong');
+          strong.textContent = 'Suggested next';
+          box.appendChild(strong);
+          box.appendChild(
+            document.createTextNode(
+              ': ' +
+                suggested
+                  .map(function (m) {
+                    return m.title || m.name || '';
+                  })
+                  .filter(Boolean)
+                  .join(' · ')
+            )
+          );
+          box.hidden = false;
+        }
+      }
+
+      function applyCompeteSummary(s) {
+        const week = s.week;
+        const enrollment = s.enrollment;
+        const caps = s.caps;
+        const season = s.season;
+
+        const titleEl = document.getElementById('dashboard-league-title');
+        if (titleEl) {
+          if (enrollment && enrollment.bracket) {
+            titleEl.textContent = enrollment.bracket + ' · Compete';
+          } else {
+            titleEl.textContent = 'Compete this week';
+          }
+        }
+
+        const hintEl = document.getElementById('dashboard-league-hint');
+        if (hintEl && week && week.weekEndUtc) {
+          var days = daysUntilUtcInstant(week.weekEndUtc);
+          hintEl.textContent =
+            days > 0 ? days + ' day(s) left in this week' : 'This week is ending';
+        }
+
+        const tagEl = document.getElementById('dashboard-league-tagline');
+        if (tagEl && season) {
+          tagEl.textContent =
+            'Season ' +
+            (season.code || '') +
+            ' · week ' +
+            (season.weekIndex != null ? season.weekIndex : '—');
+        }
+
+        const subEl = document.getElementById('dashboard-league-sub');
+        if (subEl && caps) {
+          subEl.textContent =
+            'Weekly TP ' +
+            (caps.weeklyTpTotal != null ? caps.weeklyTpTotal : 0) +
+            ' / ' +
+            (caps.weeklyHardCap != null ? caps.weeklyHardCap : '—') +
+            ' · daily used ' +
+            (caps.dailyTpUsed != null ? caps.dailyTpUsed : 0) +
+            ' / ' +
+            (caps.dailyTpCap != null ? caps.dailyTpCap : '—');
+        }
+      }
+
+      function daysUntilUtcInstant(iso) {
+        var end = new Date(iso).getTime();
+        var now = Date.now();
+        return Math.max(0, Math.ceil((end - now) / 86400000));
       }
 
       function renderModules(modules) {
         const moduleListContainer = document.getElementById('module-list');
-        if (!moduleListContainer) return;
-        moduleListContainer.innerHTML = '';
-        if (!modules.length) {
-          const empty = document.createElement('p');
-          empty.className = 'dashboard-modules__empty';
-          empty.textContent = 'No modules to show.';
-          moduleListContainer.appendChild(empty);
+        if (!moduleListContainer) {
           return;
         }
-        const heading = document.createElement('h3');
-        heading.className = 'dashboard-modules__heading';
-        heading.textContent = 'Your modules';
-        moduleListContainer.appendChild(heading);
-
-        modules.forEach((module) => {
+        moduleListContainer.innerHTML = '';
+        modules.forEach(function (module) {
           const moduleCard = document.createElement('div');
           moduleCard.className = 'module-card';
 
-          const moduleTitle = document.createElement('h3');
-          moduleTitle.textContent = module.name;
+          const heading = document.createElement('h3');
+          heading.textContent = module.title || module.name || '';
 
+          moduleCard.appendChild(heading);
+          if (module.title && module.name && module.title !== module.name) {
+            const nameLine = document.createElement('p');
+            nameLine.className = 'module-card__name';
+            nameLine.textContent = module.name;
+            moduleCard.appendChild(nameLine);
+          }
           const moduleDescription = document.createElement('p');
           moduleDescription.textContent = module.description || '';
-
-          const moduleStatus = document.createElement('span');
-          moduleStatus.textContent =
-            'Status: ' + displayModuleStatus(module.status);
-          const st = displayModuleStatus(module.status)
-            .toLowerCase()
-            .replace(/\s+/g, '-');
-          moduleStatus.className =
-            'module-status module-status--' + (st || 'unknown');
-
-          moduleCard.appendChild(moduleTitle);
           moduleCard.appendChild(moduleDescription);
-          moduleCard.appendChild(moduleStatus);
+
           moduleListContainer.appendChild(moduleCard);
         });
       }
-
-      document.addEventListener('DOMContentLoaded', async () => {
-        const token = localStorage.getItem('auth-key');
-
-        try {
-          const response = await fetch('/api/dashboard/learning-path', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-            },
-          });
-
-          if (response.ok) {
-            const dashboardData = await response.json();
-            renderDashboard(dashboardData);
-          } else {
-            const sub = document.getElementById('dashboard-greeting-subtitle');
-            if (sub) sub.textContent = 'Could not load your learning path.';
-            alert('Unable to load learning path data.');
-          }
-        } catch (error) {
-          console.error('Error during module fetch:', error);
-          const sub = document.getElementById('dashboard-greeting-subtitle');
-          if (sub) sub.textContent = 'Network error.';
-          alert('Network error. Could not connect to the server.');
-        }
-      });
     </script>
   </body>
 </html>
-
