@@ -14,9 +14,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * Per-user Compete preferences and cohort band. One row per {@link User}.
- */
 @Entity
 @Table(name = "user_compete_profile")
 public class UserCompeteProfile {

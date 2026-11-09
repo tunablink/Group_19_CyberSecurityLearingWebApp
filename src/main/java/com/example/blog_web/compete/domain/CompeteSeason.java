@@ -9,9 +9,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * A fixed-length competitive season (MVP: one open season; weeks roll inside it).
- */
 @Entity
 @Table(name = "compete_season")
 public class CompeteSeason {

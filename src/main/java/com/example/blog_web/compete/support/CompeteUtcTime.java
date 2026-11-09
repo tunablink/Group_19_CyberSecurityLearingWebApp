@@ -3,9 +3,6 @@ package com.example.blog_web.compete.support;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-/**
- * Canonical UTC week boundaries (Monday 00:00 UTC through Sunday 23:59:59.999 UTC).
- */
 public final class CompeteUtcTime {
 
     private CompeteUtcTime() {

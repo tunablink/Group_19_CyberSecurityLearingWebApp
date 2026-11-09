@@ -19,9 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
-/**
- * Aggregates read models for the Compete hub screen.
- */
 @Service
 public class CompeteQueryService {
 

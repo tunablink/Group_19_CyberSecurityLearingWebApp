@@ -14,9 +14,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * Canonical UTC tournament window (Monday start, Sunday end inclusive logic handled in service).
- */
 @Entity
 @Table(name = "compete_week")
 public class CompeteWeek {

@@ -18,9 +18,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Read model for cohort leaderboard (opted-in users only).
- */
 @Service
 public class CompeteLeaderboardService {
 

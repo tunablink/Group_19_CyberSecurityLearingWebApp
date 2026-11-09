@@ -15,9 +15,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * Append-only audit of TP changes; {@code idempotencyKey} prevents double-award on retries.
- */
 @Entity
 @Table(name = "tournament_point_event")
 public class TournamentPointEvent {

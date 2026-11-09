@@ -4,9 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-/**
- * Serves Compete UI assets from the uploaded template folders.
- */
 @Configuration
 public class CompeteResourceConfig implements WebMvcConfigurer {
 

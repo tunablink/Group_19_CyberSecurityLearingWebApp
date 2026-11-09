@@ -10,9 +10,6 @@ import com.example.blog_web.models.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Enrollment lifecycle for a user/week pair (bracket comes from profile or first-time rookie rule).
- */
 @Service
 public class TournamentEnrollmentService {
 

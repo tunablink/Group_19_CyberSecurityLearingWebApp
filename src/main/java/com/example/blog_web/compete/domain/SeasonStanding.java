@@ -10,9 +10,6 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
 
-/**
- * Running season points (SP) per user. Composite key matches FK columns to users / compete_season.
- */
 @Entity
 @Table(name = "season_standing")
 @IdClass(SeasonStanding.SeasonStandingId.class)

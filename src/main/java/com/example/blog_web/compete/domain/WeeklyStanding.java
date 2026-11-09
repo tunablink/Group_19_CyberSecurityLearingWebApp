@@ -12,9 +12,6 @@ import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-/**
- * Immutable snapshot after week close for season points and history APIs.
- */
 @Entity
 @Table(name = "weekly_standing")
 public class WeeklyStanding {

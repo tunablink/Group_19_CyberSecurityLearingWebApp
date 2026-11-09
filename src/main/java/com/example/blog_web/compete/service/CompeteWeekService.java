@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
 import java.util.Optional;
 
-/**
- * Resolves the active UTC week and creates the next row when Monday rolls over.
- */
 @Service
 public class CompeteWeekService {
 

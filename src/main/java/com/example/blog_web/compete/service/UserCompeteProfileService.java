@@ -10,9 +10,6 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-/**
- * Creates default Compete preferences and keeps timezone band in sync (coarse cohorts).
- */
 @Service
 public class UserCompeteProfileService {
 

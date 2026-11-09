@@ -16,10 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 
-/**
- * Awards TP after legitimate quiz/lab success. Idempotent per {@code idempotencyKey}.
- * Does not validate quiz answers or lab payloads — callers must only invoke on success.
- */
 @Service
 public class TournamentPointService {
 

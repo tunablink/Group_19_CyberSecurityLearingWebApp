@@ -2,6 +2,7 @@ package com.example.blog_web.services;
 
 import com.example.blog_web.models.DashboardResponseDto;
 import com.example.blog_web.models.Module;
+import com.example.blog_web.models.ProgressSummaryDto;
 import com.example.blog_web.models.User;
 import com.example.blog_web.repositories.DashboardRepository;
 import com.example.blog_web.repositories.UserRepository;
@@ -9,25 +10,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
-/**
- * Service cung cấp dữ liệu cho hiển thị Dashboard thông minh.
- * <p>
- * Tính toán tỷ lệ hoàn thành, lấy tiến trình học tập, và gợi ý các lộ trình
- * tiếp theo dựa vào số lượng học phần chưa được hoàn tất.
- * </p>
- */
 @Service
 public class DashboardService {
     private final DashboardRepository dashboardRepository;
     private final UserRepository userRepository;
+    private final CyPromProgressService cyPromProgressService;
 
-    public DashboardService(DashboardRepository dashboardRepository, UserRepository userRepository) {
+    public DashboardService(
+            DashboardRepository dashboardRepository,
+            UserRepository userRepository,
+            CyPromProgressService cyPromProgressService
+    ) {
         this.dashboardRepository = dashboardRepository;
         this.userRepository = userRepository;
+        this.cyPromProgressService = cyPromProgressService;
     }
 
     public DashboardResponseDto getLearningPathForUser(String username) {
@@ -39,9 +40,13 @@ public class DashboardService {
         }
 
         List<Module> modules = dashboardRepository.findLearningPathByUsername(username);
+        ProgressSummaryDto progress = cyPromProgressService.getProgress(username, modules.size());
+        Set<Long> completedModuleIds = progress.getCompletedModuleIds().stream()
+                .collect(Collectors.toSet());
         int totalModules = modules.size();
         int completedModules = (int) modules.stream()
-                .filter(module -> "Completed".equalsIgnoreCase(module.getStatus()))
+                .map(Module::getId)
+                .filter(completedModuleIds::contains)
                 .count();
 
         int completionPercentage = totalModules == 0 ? 0 : (completedModules * 100) / totalModules;
@@ -50,7 +55,7 @@ public class DashboardService {
                 : "Dashboard loaded successfully.";
 
         List<Module> suggestedNextModules = modules.stream()
-                .filter(module -> !"Completed".equalsIgnoreCase(module.getStatus()))
+                .filter(module -> !completedModuleIds.contains(module.getId()))
                 .limit(2)
                 .collect(Collectors.toList());
 

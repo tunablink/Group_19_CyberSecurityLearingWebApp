@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Instant;
 
-/**
- * Ensures at least one {@link CompeteSeason} exists so weekly rows can be created (dev-friendly bootstrap).
- */
 @Component
 @Order(100)
 public class CompeteBootstrapRunner implements ApplicationRunner {

@@ -15,9 +15,6 @@ import jakarta.persistence.Table;
 
 import java.time.Instant;
 
-/**
- * Claimable cosmetic / token payload after week close (JSON string in {@code payload} for MVP portability).
- */
 @Entity
 @Table(name = "reward_grant")
 public class RewardGrant {

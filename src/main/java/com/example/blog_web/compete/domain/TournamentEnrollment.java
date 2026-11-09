@@ -16,9 +16,6 @@ import jakarta.persistence.UniqueConstraint;
 
 import java.time.Instant;
 
-/**
- * Links a {@link User} to a {@link CompeteWeek} with running TP and leaderboard opt-in.
- */
 @Entity
 @Table(
         name = "tournament_enrollment",

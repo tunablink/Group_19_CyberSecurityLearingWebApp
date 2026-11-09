@@ -11,9 +11,6 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Rolling week creation, freeze window, and week-close pipeline.
- */
 @Component
 public class CompeteScheduler {
 
@@ -37,9 +34,9 @@ public class CompeteScheduler {
         competeWeekService.findCurrentWeek(now).ifPresent(w -> competeWeekService.freezeIfInFinalWindow(w, now));
     }
 
-    /**
-     * Monday 00:05 server default timezone — align JVM TZ to UTC in production if needed.
-     */
+
+//     Monday 00:05 server default timezone — align JVM TZ to UTC in production if needed
+
     @Scheduled(cron = "0 5 0 ? * MON")
     public void weeklyClose() {
         Instant now = Instant.now();

@@ -1,8 +1,5 @@
 package com.example.blog_web.compete.domain;
 
-/**
- * Skill bucket for fair leaderboard cohorts. MVP defaults most users to {@link #CORE}.
- */
 public enum CompeteBracket {
     ROOKIE,
     CORE,

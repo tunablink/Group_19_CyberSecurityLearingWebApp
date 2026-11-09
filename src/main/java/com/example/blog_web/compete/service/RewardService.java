@@ -13,9 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.Instant;
 import java.util.List;
 
-/**
- * Claim flow for weekly/season grants (MVP: status flip only; inventory integration later).
- */
 @Service
 public class RewardService {
 

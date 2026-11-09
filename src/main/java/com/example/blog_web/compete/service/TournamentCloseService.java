@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Finalizes weeks: standings, season points, and pending rewards. Idempotent per week ({@link CompeteWeekCloseStatus}).
- */
 @Service
 public class TournamentCloseService {
 
